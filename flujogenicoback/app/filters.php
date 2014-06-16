@@ -10,6 +10,16 @@
 | application. Here you may also register your custom route filters.
 |
 */
+Route::filter('auth.basicCustom', function () {
+        /* $credentials = [ 'email' => Request::getUser(), 'password' => Request::getPassword() ]; */
+        $credentials = [ 'email' => 'pabloagronomo@gmail.com', 'password' => 'cid123' ];
+ 
+        if ( !Auth::check() ) {
+            if (!Auth::once($credentials)) {
+                throw new \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException('x-Basic');
+            }
+        }
+});
 
 // Para habilitar acceso de distintos origenes -- chequear si se puede restringir a determinada ip
 App::before(function($request)
