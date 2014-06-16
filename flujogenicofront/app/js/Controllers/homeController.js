@@ -17,7 +17,6 @@ flujoApp.controller('homeController', function ($scope, Restangular, $http){
 	$scope.especiesRelacionadas = function (sp, type){
 		$scope.loadingRelation = 1 ;
 		$scope.spRelation = '';
-		//Restangular.all('query').one(sp.id,type).get().then(function(data){
 		Restangular.one('query/'+sp.id,type).get().then(function(data){
 			$scope.spRelation = data;
 			$scope.loadingRelation = '' ;
