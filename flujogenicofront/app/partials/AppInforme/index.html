@@ -1,0 +1,311 @@
+<div ng-if="currentUser">Welcome, {{ currentUser.name }}</div>
+<div ng-if="isAuthorized(userRoles.admin)">You're admin.</div>
+<div ng-switch on="currentUser.role">
+  <div ng-switch-when="userRoles.admin">You're admin.</div>
+  <div ng-switch-when="userRoles.editor">You're editor.</div>
+  <div ng-switch-default>You're something else.</div>
+</div>
+
+
+
+<div class="row">
+
+<div class="col-md-4">
+
+<!-- ngModel is optional -->
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs">
+  <li ng-class="{active: selectedTab == 1}"><a ng-click="selectedTab = 1">Transgenicas</a></li>
+  <li ng-class="{active: selectedTab == 2}"><a ng-click="selectedTab = 2">Cultivadas</a></li>
+  <li ng-class="{active: selectedTab == 3}" ng-show="especieSeleccionada"><a ng-click="selectedTab = 3">Ponderaciones</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div style="overflow:scroll; height:450px;">
+<div ng-hide="transgenicas">
+	<img src="img/loading.gif" alt="" width="33px" style="display:block; margin:auto; margin-top:100px; ">
+</div>
+  <div class="tab-pane" ng-show="selectedTab == 1" id="home">
+	<ul>
+		<li ng-repeat="spT in transgenicas"><a ng-click="especiesRelacionadas(spT,4)">{{spT.TAXA}}</a></li>
+	</ul>
+  </div>
+  <div class="tab-pane" ng-show="selectedTab == 2" id="profile">
+	<ul>
+		<li ng-repeat="spT in cultivadas"><a ng-click="especiesRelacionadas(spT,1)">{{spT.taxa}}</a></li>
+	</ul>
+  </div>
+ <div class="tab-pane" ng-show="selectedTab == 3" id="ponderacion">
+  <ul ng-show="selectedTabR == 1">
+	<li>Tipo de Origen : {{R.CtipO}}
+		<input type="range" ng-model="R.CtipO" min="1" max="6" >
+		<ul>
+			<li>
+				Endemico: {{R.Cen}}
+				<input type="range" ng-model="R.Cen" min="1" max="6">
+			</li>
+			<li>
+				Nativo: {{R.Cnati}}
+				<input type="range" ng-model="R.Cnati" min="1" max="6">
+			</li>
+			<li>
+				Introducido: {{R.Cin}}
+				<input type="range" ng-model="R.Cin" min="1" max="6">
+			</li>
+			<li>
+				Naturalizado: {{R.Cnatu}}
+				<input type="range" ng-model="R.Cnatu" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+	<li>
+		Tipo de especie: {{R.CtipC}}
+		<input type="range" ng-model="R.CtipC" min="1" max="6">
+		<ul>
+			<li>
+				Agrícola: {{R.Cag}}
+				<input type="range" ng-model="R.Cag" min="1" max="6">
+			</li>
+			<li>
+				Ornamental: {{R.Cor}}
+				<input type="range" ng-model="R.Cor" min="1" max="6">
+			</li>
+			<li>
+				Forestal: {{R.Cfo}}
+				<input type="range" ng-model="R.Cfo" min="1" max="6">
+			</li>
+			<li>
+				Maleza: {{R.Cma}}
+				<input type="range" ng-model="R.Cma" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+	<li>
+		Reproducción: {{R.CtipR}}
+		<input type="range" ng-model="R.CtipR" min="1" max="6">
+		<ul>
+			<li>
+				Sexual: {{R.Cse}}
+				<input type="range" ng-model="R.Cse" min="1" max="6">
+			</li>
+			<li>
+				Vegetativa: {{R.Cve}}
+				<input type="range" ng-model="R.Cve" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+	<li>
+		Ciclo de Vida: {{R.Ccv}}
+		<input type="range" ng-model="R.Ccv" min="1" max="6">
+		<ul>
+			<li>
+				Anual: {{R.Can}}
+				<input type="range" ng-model="R.Can" min="1" max="6">
+			</li>
+			<li>
+				Bianual: {{R.Cbi}}
+				<input type="range" ng-model="R.Cbi" min="1" max="6">
+			</li>
+			<li>
+				Perenne: {{R.Cpe}}
+				<input type="range" ng-model="R.Cpe" min="1" max="6">
+			</li>
+			<li>
+				Bulbosa: {{R.Cbu}}
+				<input type="range" ng-model="R.Cbu" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+	<li>
+		Tipo de polinización: {{R.CtipP}}
+		<input type="range" ng-model="R.CtipP" min="1" max="6">
+		<ul>
+			<li>
+				Autógama: {{R.Cang}}
+				<input type="range" ng-model="R.Cang" min="1" max="6">
+			</li>
+			<li>
+				Alógama: {{R.Calg}}
+				<input type="range" ng-model="R.Calg" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+	<li>
+		Agente polinizante: {{R.CagP}}
+		<input type="range" ng-model="R.CagP" min="1" max="6">
+		<ul>
+			<li>
+				Entomófila: {{R.Cent}}
+				<input type="range" ng-model="R.Cent" min="1" max="6">
+			</li>
+			<li>
+				Anemófila: {{R.Cane}}
+				<input type="range" ng-model="R.Cane" min="1" max="6">
+			</li>
+			<li>
+				Artificial: {{R.Cart}}
+				<input type="range" ng-model="R.Cart" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+	<li>
+		Landrace: {{R.Cland}}
+		<input type="range" ng-model="R.Cland" min="1" max="6">
+		<ul>
+			<li>
+				Landrace: {{R.Clan}}
+				<input type="range" ng-model="R.Clan" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+</ul>
+
+<ul ng-show="selectedTabR == 2">
+	<li>
+		Tipo de especie {{R.Itipoc}}
+		<input type="range" ng-model="R.Itipoc" min="1" max="6">
+		<ul>
+			<li>
+				Agrícola	{{R.Ia}}
+				<input type="range" ng-model="R.Ia" min="1" max="6">
+			</li>
+			<li>
+				Ornamental	{{R.Io}}
+				<input type="range" ng-model="R.Io" min="1" max="6">
+			</li>
+			<li>
+				Forestal	{{R.If}}
+				<input type="range" ng-model="R.If" min="1" max="6">
+			</li>
+			<li>
+				Medicinal	{{R.Ime}}
+				<input type="range" ng-model="R.Ime" min="1" max="6">
+			</li>
+			<li>
+				Maleza		{{R.Ima}}
+				<input type="range" ng-model="R.Ima" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+	<li>
+		Naturalizada {{R.Iotr}}
+		<input type="range" ng-model="R.Iotr" min="1" max="6">
+		<ul>
+			<li>
+				Naturalizada	{{R.In}}
+				<input type="range" ng-model="R.In" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+</ul>
+
+<ul ng-show="selectedTabR == 3">
+	<li>
+		Estatus de conservación	{{R.NcEc}}
+		<input type="range" ng-model="R.NcEc" min="1" max="6">
+		<ul>
+			<li>
+				Extinta	{{R.Nex}}
+				<input type="range" ng-model="R.Nex" min="1" max="6">
+			</li>
+			<li>
+				En peligro	{{R.Np}}
+				<input type="range" ng-model="R.Np" min="1" max="6">
+			</li>
+			<li>
+				Vulnerable	{{R.Nv}}
+				<input type="range" ng-model="R.Nv" min="1" max="6">
+			</li>
+			<li>
+				Rara {{R.Nr}}
+				<input type="range" ng-model="R.Nr" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+	<li>
+		Endémica	{{R.Notr}}
+		<input type="range" ng-model="R.Notr" min="1" max="6">
+		<ul>
+			<li>
+			Endémica	{{R.Nen}}
+			<input type="range" ng-model="R.Nen" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+</ul>
+
+  </div>
+
+
+</div>
+
+
+</div>
+
+<div class="col-md-8">
+
+	<!-- <div ng-show="spRelation.cultivadas">
+		<h4>Asociación con especies cultivadas</h4>
+		<div ng-repeat="spCult in spRelation.cultivadas">{{spCult.taxa}}</div>
+	</div>
+	<div ng-show="spRelation.introducidas">
+		<h4>Asociación con especies introducidas</h4>
+		<div ng-repeat="spCult in spRelation.introducidas">{{spCult.taxa}}</div>
+	</div>
+	<div ng-show="spRelation.nativas">
+		<h4>Asociación con especies nativas</h4>
+		<div ng-repeat="spCult in spRelation.nativas">{{spCult.taxa}}</div>
+	</div> -->
+	
+	<div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title" ng-show="especieSeleccionada"> Especie seleccionada: {{especieSeleccionada.nombre}}</h3>
+                    <h3 class="panel-title" ng-hide="especieSeleccionada"> Selecciona una especie del panel ubicado a la izquierda de la pantalla</h3>
+                    <span class="pull-right">
+                        <!-- Tabs -->
+                        <ul class="nav panel-tabs">
+                            <li ng-class="{active: selectedTabR == 1}">
+                            	<a ng-click="selectedTabR = 1" ng-show="spRelation.cultivadas">Cultivadas</a>
+                            </li>
+                            <li ng-class="{active: selectedTabR == 2}">
+                            	<a ng-click="selectedTabR = 2" ng-show="spRelation.introducidas">Introducidas</a>
+                            </li>
+                            <li ng-class="{active: selectedTabR == 3}">
+                            	<a ng-click="selectedTabR = 3" ng-show="spRelation.nativas">Nativas</a>
+                            </li>
+                        </ul>
+                    </span>
+                </div>
+                <div class="panel-body">
+                	<div ng-show="loadingRelation">
+						<img src="img/loading.gif" alt="" width="33px" style="display:block; margin:auto; margin-top:50px; ">
+					</div>
+                    <div class="tab-content">
+                    	<div ng-show="selectedTabR == 0">
+                        	<h4>No existen especies asociadas en Chile</h4>
+							
+						</div>
+                        <div ng-show="selectedTabR == 1 && spRelation">
+							<h4>Asociación con especies cultivadas</h4>
+							<div ng-repeat="spCult in spRelation.cultivadas | orderBy:'flujogenico':reverse=true">
+								{{spCult.taxa}} -  Riego de flujo Génico : {{spCult.flujogenico | number:0 }} <a ng-click="FlujoGenico(spCult)"></a> 
+							</div>
+                        </div>
+                        <div ng-show="selectedTabR == 2 && spRelation">
+							<h4>Asociación con especies introducidas</h4>
+							<div ng-repeat="spIntro in spRelation.introducidas | orderBy:'flujogenico':reverse=true">
+								{{spIntro.taxa}} - {{FlujoGenico(spIntro) | number:0}} -  flujogenico back: {{spIntro.flujogenico | number:0 }}
+							</div>
+                        </div>
+                        <div ng-show="selectedTabR == 3 && spRelation">
+                        	<h4>Asociación con especies nativas</h4>
+							<div ng-repeat="spNat in spRelation.nativas | orderBy:'flujogenico':reverse=true">
+								{{spNat.taxa}} - {{FlujoGenico(spNat) | number:0}}-  flujogenico back: {{spNat.flujogenico | number:0 }} <br> {{spNat}}
+							</div>
+						</div>
+                    </div>
+                </div>
+            </div>
+</div>
+</div>
