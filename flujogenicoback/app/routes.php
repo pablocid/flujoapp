@@ -32,25 +32,3 @@ Route::resource('transgenicas', 'TransgenicasController');
 // Route::get('species/{id}/trash', 'SpeciesController@getTrash');
 // Route::delete('species/{id}/trash', 'SpeciesController@deleteTrash');
 // Route::resource('species', 'SpeciesController');
-
-// Route with basic authentification and custom method
-Route::group([ 'before' => 'auth.basicCustom' ], function () {
-    // User authenticate with sesssion
-    Route::get('authenticate', function(){
-        echo 'oki';
-    });
-});
- 
-// Logout current user
-Route::get('/logout', function(){
-    Auth::logout();
-});
- 
-// Check state of current user authentification
-Route::get('/guest', function(){
-    if( Auth::guest() ){
-        throw new \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException('x-Basic');
-    }else{
-        echo 'ok';
-    }
-});
