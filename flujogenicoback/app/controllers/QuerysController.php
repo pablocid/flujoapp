@@ -2,6 +2,12 @@
 
 class QuerysController extends BaseController {
 
+	function __construct() {
+	        // ...
+		$this->beforeFilter('auth', array() );
+	    //$this->beforeFilter('auth', array('except' => array('getLogin','postLoginup')));
+	 }
+
 	public function getRelacionadas($id, $typeRel)
 	{
 		$code 	=  Genero::where('id_taxa',$id )->where('type',$typeRel)->first()->code;

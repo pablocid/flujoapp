@@ -1,6 +1,10 @@
 <?php
 
 class TransgenicasController extends BaseController {
+	function __construct() {
+	        // ...
+		$this->beforeFilter('auth', array() );
+	 }
 
 	public function index(){
 		$species = Transgenicas::orderBy( 'taxa','ASC')->get();

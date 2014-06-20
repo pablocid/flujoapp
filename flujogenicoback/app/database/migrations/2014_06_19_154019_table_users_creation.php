@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserTable extends Migration {
+class TableUsersCreation extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -18,8 +18,9 @@ class CreateUserTable extends Migration {
 			$table->string('first_name',50);
 			$table->string('last_name',50);
 			$table->string('profesion',255);
-			$table->string('email');
-			$table->string('remember_token');
+			$table->string('email')->unique();
+			$table->string('password');
+			$table->string('remember_token')->nullable();
 			$table->softDeletes();
 			$table->timestamps();
 		});
@@ -37,3 +38,5 @@ class CreateUserTable extends Migration {
 	}
 
 }
+
+//$2y$10$jl0mC64aGJQJYeXorzbNIO.JudKkPOjkPZ2w685jb.TKwGAuVZVii

@@ -17,7 +17,7 @@ App::before(function($request)
     if (Request::getMethod() == "OPTIONS") {
         $headers = array(
             'Access-Control-Allow-Methods'=> 'POST, GET, OPTIONS, PUT, DELETE',
-            'Access-Control-Allow-Headers'=> 'X-Requested-With, content-type',);
+            'Access-Control-Allow-Headers'=> 'X-Requested-With, content-type, X-Auth-Token',);
         return Response::make('', 200, $headers);
     }
 });
@@ -44,9 +44,21 @@ App::after(function($request, $response)
 |
 */
 
-Route::filter('auth', function()
+Route::filter('auth', function($route, $request)
 {
-	if (Auth::guest()) return Redirect::guest('login');
+	//if (Auth::guest()) //return Redirect::guest('login');
+	$payload = $request->header('X-Auth-Token');
+	$cookies = Cookie::get('laravel_session');
+
+	if (Session::token() != $payload){
+		return Response::json(
+			['flash' => 'Authentication failed',
+			'Playload' => $payload,
+			'SessionToken()' => Session::all(),
+			'Cookies' => $cookies
+			], 401 );	
+	}
+	
 });
 
 
@@ -88,4 +100,14 @@ Route::filter('csrf', function()
 	{
 		throw new Illuminate\Session\TokenMismatchException;
 	}
+});
+
+Route::filter('ngcsrf',function($route,$request) {
+     
+    $token = md5(Session::token());
+    $supplied = $request->header('X-XSRF-TOKEN');
+     
+    if(empty($supplied) || $token != $supplied) {
+        throw new Illuminate\Session\TokenMismatchException;
+    }
 });
