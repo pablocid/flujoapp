@@ -2,25 +2,14 @@
 
 <form ng-submit="login(credentials)">
 	<label for="">Email</label>
-	<input type="email" value="" ng-model="credentials.email">
+	<input type="email" ng-model="credentials.email">
 	<br>
 	<label for="">Password</label>
 	<input type="password" ng-model="credentials.password">
 	<input type="submit" value="Enviar">
 </form>
 
-<ul>
-	<li>{{things.data}}</li>
-<li>{{things.status}}</li>
-<li>{{things.headers}}</li>
-<li>{{things.config}}</li>
-<li>{{things.sessionStore}}</li>
-</ul>
-
-
-
-<h2>Login</h2>
-<button ng-click="iflog()"> Prueba el Token</button>
-
-<p>{{iflogin}}</p>
-<br> <p>Token almacenado: {{windowstorage}}</p>
+<div ng-show="loginWait">
+	<img src="img/loading.gif" alt="" width="33px" style="display:block; margin:auto; margin-top:100px; ">
+</div>
+{{things}}

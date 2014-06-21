@@ -46,18 +46,21 @@ App::after(function($request, $response)
 
 Route::filter('auth', function($route, $request)
 {
-	//if (Auth::guest()) //return Redirect::guest('login');
-	$payload = $request->header('X-Auth-Token');
-	$cookies = Cookie::get('laravel_session');
+	if (Auth::guest()) return Response::make('All bad', 401); //return Redirect::guest('login');
+	//if(Auth::viaRemember()==false){ return Response::make('I don`t remember you, please login', 401); }
 
-	if (Session::token() != $payload){
-		return Response::json(
-			['flash' => 'Authentication failed',
-			'Playload' => $payload,
-			'SessionToken()' => Session::all(),
-			'Cookies' => $cookies
-			], 401 );	
-	}
+	// $payload = $request->header('X-Auth-Token');
+	// $cookies = Cookie::get();
+
+	// if (Session::token() != $payload){
+	// 	return Response::json(
+	// 		['flash' => 'Authentication failed',
+	// 		'Playload' => $payload,
+	// 		'SessionToken()' => Session::all(),
+	// 		'Cookies' => $cookies,
+	// 		'CookiesCrypt' => Crypt::encrypt($cookies),
+	// 		], 401 );	
+	// }
 	
 });
 

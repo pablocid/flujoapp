@@ -1,63 +1,33 @@
 'use strict';
 
-flujoApp.controller('loginController', function ($scope, Restangular, $http, $window, $cookies){
+flujoApp.controller('loginController', function ($scope, Restangular, $http, $window, $location){
 
-	$scope.credentials = {
-		email: '',
-		password: ''
+	Restangular.all('auth/token').customGET().then(function(data){
+		$scope.credentials = {
+		email: 'pabloagronomo@gmail.com',
+		password: 'cid123',
+		token: data
 	};
+	});
+	
 
 	$scope.login = function (credentials){
-
-	//Restangular.customPOST({},'login',{param:credentials}).get()
-	Restangular.one('login').customPOST(credentials)
-	.then(function (data, status, headers, config){
-		$window.sessionStorage.token = data.token;
-		$scope.things = {
-			data:data,
-			status:status,
-			headers:headers,
-			config: config,
-			sessionStore: $window.sessionStorage
-		};
-		$cookies.laravel_session = data.laravel_session;
-		//$cookies.laravel_session = 'holasd';
-	});
-
-
-	// $http({
-	// 	method:'POST',
-	// 	url:'http://flujogenicoback.dev:8081/login',
-	// 	data: credentials
-	// }).success(
-	// function (data, status, headers, config){
-	// 	$window.sessionStorage.token = data.token;
-	// 	$scope.things = {
-	// 		data:data,
-	// 		status:status,
-	// 		headers:headers,
-	// 		config: config,
-	// 		sessionStore: $window.sessionStorage
-	// 	};
-	// 	//$cookies.laravel_session = data.laravel_session;
-	// 	//$cookies.laravel_session = 'holasd';
-	// });
+		$scope.loginWait = true;
+		Restangular.all('auth/login').customPOST(credentials)
+		.then(function (data){
+			$scope.credentials = '';
+			$location.path('/home');
+			//$scope.things = data;
+		});
 	}
 
-	$scope.iflog =  function (){
-		//var ssg = $window.sessionStorage;
-		var datasend = {
-			"token" : 'B8kbeJxAU7dFvBUrzaEaL57m12nRtPIAnLVJiMfT'
-		};
-		$scope.windowstorage = $window.sessionStorage;
-		$http({
-			method:'GET',
-			url:'http://flujogenicoback.dev:8081/login',
-			data: datasend
-		})
-		.success(function(data){
-			$scope.iflogin = data;
-		});
+	//$scope.login($scope.credentials);
+
+	$scope.cleanStorage = function(){
+		$window.sessionStorage.token = '';
+		$window.localStorage.token = '';
+		$cookieStore.remove("laravel_session");
+		delete $cookies["laravel_session"];
 	}
 	
 });

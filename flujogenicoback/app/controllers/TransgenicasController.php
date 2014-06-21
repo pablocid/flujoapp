@@ -2,7 +2,6 @@
 
 class TransgenicasController extends BaseController {
 	function __construct() {
-	        // ...
 		$this->beforeFilter('auth', array() );
 	 }
 

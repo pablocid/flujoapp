@@ -1,72 +1,15 @@
 <?php
 
 header('Access-Control-Allow-Origin: http://flujogenicofront.dev:8081');
-//header('Access-Control-Allow-Origin: *'); 
 header('Access-Control-Allow-Credentials: true');
-Route::post('/login', function(){
 
-$credentials = array(
-	'email'=>Input::get('email'),
-	'password'=>Input::get('password'),
-);
+Route::post('/auth/login','AuthentificationController@postLogin');
 
-//Auth::attempt valida las credenciales
-if( Auth::attempt($credentials) ){
-
-	if( Auth::check() ){ 
-
-		//loop para crear un token unico
-		// while(true){
-		// 	//$token = str_random(15); //TODO: usar una manera mas segura para generar el token
-		// 	$token = csrf_token();
-		// 	$userToken = User::where('remember_token', '=', $token)->get();
-
-		// 	if($userToken->count() > 0) continue;
-		// 	else break;
-		// }
-
-		 $token = Session::token();
-		// //setear el token para el usuario
-		//  $userC = User::find(Auth::user()->id);
-		//  $userC->remember_token =  $token
-		//  $userC->save();
-		//Auth::user()->update(['remember_token'=>$token]);
-		 $cookies = Cookie::get('laravel_session');
-		 $laravel_session = Crypt::encrypt($cookies);
-
-		return Response::json(
-			['user' => Auth::user()->toArray(),
-	        'token' => $token,
-	        'laravel_session' => $laravel_session 
-	        ], 200
-	    );
-
+Route::post('getcookies',function(){
+	if(Auth::check()){
+		return 'true';
 	}else{
-		return Response::json(
-			['flash' => 'Check failed'], 401
-         );
-	}
-}else{
-	return Response::json([
-                    'flash' => 'Authentication failed'],
-                401
-      );
-}
-
-	// return Response::json(array(
-	// 		'id' => '1', 
-	// 		'userid' => '22',
-	// 		'role' => 'admin',
-	// 		'token' => csrf_token()
-	// ));
-});
-
-Route::get('/login',function(){
-	$token = Input::get('token');
-	if(Session::token() == $token){
-		return 'El Token es correcto';
-	}else{
-		return 'Token Incorrecto <br> '.$token .'<br>'. Session::token();
+		return 'false';
 	}
 });
 
