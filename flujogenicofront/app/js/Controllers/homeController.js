@@ -46,7 +46,7 @@ $scope.description = function (sp){
 //tipo origen
 if(sp.Cnati==1 && sp.Cen==1)		{ descripcion +=' y corresponde a una especie nativa y endémica de Chile. ' }
 else if(sp.Cen==1)					{ descripcion +=' y corresponde a una especie de origen endémica en Chile. ' }
-else if(sp.Cnati==1)				{ descripcion +=' y corresponde a una especie nativa de Chile.' }
+else if(sp.Cnati==1)				{ descripcion +=' y corresponde a una especie nativa de Chile. ' }
 else if(sp.Cin ==1 && sp.Cnatu ==1)	{ descripcion +=' y corresponde a una especie introducida y naturalizada en Chile. '}
 else if(sp.Cin ==1)					{ descripcion +=' y corresponde a una especie introducida en Chile. '}
 else if(sp.Cnatu ==1)				{ descripcion +=' y corresponde a una especie naturalizada en Chile. '}
@@ -65,9 +65,9 @@ else if(sp.Cbu==1)					{descripcion +='Respecto a su biología, es una especie b
 else if(sp.Cse==1 || sp.Cve==1)		{descripcion +='Respecto a su biología, es una especie'}
 
 //tipo de reproducción
-if(sp.Cse==1 && sp.Cve==1)			{descripcion +=' con reproducción sexual y asexual'}
+if(sp.Cse==1 && sp.Cve==1)			{descripcion +=' con reproducción sexual y vegetativa'}
 else if(sp.Cse==1)					{descripcion +=' con reproducción sexual'}
-else if(sp.Cve==1)					{descripcion +=' con reproducción asexual'}
+else if(sp.Cve==1)					{descripcion +=' con reproducción vegetativa'}
 
 //tipo polinizacion
 if (sp.Cang==0 && sp.Calg==0)		{descripcion +='.'}
@@ -89,25 +89,45 @@ else if(sp.Cma==1) 				{descripcion +='En el área productiva, esta especie se c
 else if(sp.Cfo==1) 				{descripcion +='En el área productiva, es una especie de importancia forestal.'}
 
 }//END... if(sp.type==1){
-	if(sp.type==2){
-		
+
+
+
+if(sp.type==2){
+
+//2.     Naturalizada
+var naturalizada ='';
+if(sp.In==1)								{naturalizada ='naturalizada'}
+
 //1.     Tipo de especie
-if(sp.Ia==1 && sp.Io==1 && sp.Ima==1) {descripcion +='. En el área productiva, es una especie de importancia agrícola, ornamental y como maleza.'}
-else if(sp.Ia==1 && sp.Ima==1 && sp.Ime==1) {descripcion +='. En el área productiva, es una especie de importancia agrícola y como maleza, además de su uso medicinal.'}
-else if(sp.Ia==1 && sp.Ima==1) 	{descripcion +='. En el área productiva, es una especie de importancia agrícola y como maleza.'}
-else if(sp.Io==1 && sp.Ima==1) 	{descripcion +='. En el área productiva, es una especie de importancia ornamental y como maleza.'}
-else if(sp.Ia==1 && sp.Ime==1) 	{descripcion +='. En el área productiva, es una especie de importancia agrícola y uso medicinal.'}
-else if(sp.Ia==1) 				{descripcion +='. En el área productiva, es una especie de importancia agrícola.'}
-else if(sp.Ime==1) 				{descripcion +='. En el área productiva, esta especie se comporta como maleza.'}
-else if(sp.Ifo==1) 				{descripcion +='. En el área productiva, es una especie de importancia forestal.'}
-else if(sp.Ima==1) 				{descripcion +='. En el área productiva, es una especie de uso medicinal.'}
+if(sp.Ia==1 && sp.Io==1 && sp.Ima==1) 		{descripcion +='. En el área productiva, es una especie '+naturalizada+' de importancia agrícola, ornamental y como maleza'}
+else if(sp.Ia==1 && sp.Ima==1 && sp.Ime==1) {descripcion +='. En el área productiva, es una especie '+naturalizada+' de importancia agrícola y como maleza, además de su uso medicinal'}
+else if(sp.Ia==1 && sp.Ima==1) 				{descripcion +='. En el área productiva, es una especie '+naturalizada+' de importancia agrícola y como maleza'}
+else if(sp.Io==1 && sp.Ima==1) 				{descripcion +='. En el área productiva, es una especie '+naturalizada+' de importancia ornamental y como maleza'}
+else if(sp.Ia==1 && sp.Ime==1) 				{descripcion +='. En el área productiva, es una especie '+naturalizada+' de importancia agrícola y uso medicinal'}
+else if(sp.Ia==1) 							{descripcion +='. En el área productiva, es una especie '+naturalizada+' de importancia agrícola'}
+else if(sp.Ime==1) 							{descripcion +='. En el área productiva, esta especie '+naturalizada+' se comporta como maleza'}
+else if(sp.Ifo==1) 							{descripcion +='. En el área productiva, es una especie '+naturalizada+' de importancia forestal'}
+else if(sp.Ima==1) 							{descripcion +='. En el área productiva, es una especie '+naturalizada+' de uso medicinal'}
+else if(sp.Io==1)			 				{descripcion +='. En el área productiva, es una especie '+naturalizada+' de importancia ornamental'}
 
-	}
+descripcion +='.';
+}//END... if(sp.type==2){
 
-	if(sp.type==3){
-		descripcion += 'Es una nativa';	
-	}
-	
+if(sp.type==3){
+
+//2.     Endémica
+if(sp.Nen==1) 								{descripcion +=' y es endémica de Chile. '
+
+	if(sp.Nex == 1)								{descripcion +='Actualmente su estatus de conservación es "Extinta".'}
+	else if(sp.Np == 1)							{descripcion +='Actualmente su estatus de conservación es "En peligo de extinción".'}
+	else if(sp.Nv == 1)							{descripcion +='Actualmente su estatus de conservación es "Especie vulnerable".'}
+	else if(sp.Nr == 1)							{descripcion +='Es considerada como una especie "Rara".'}
+
+} //END ... if(sp.Nen==1)
+else										{descripcion +='.'}
+
+}//END... if(sp.type==3){
+
 	return descripcion;
 } // END description
 
@@ -140,58 +160,105 @@ if(sp.regiones.length != 0){
 }
 
 //Objeto con las ponderaciones
-$scope.R = {};
-//cultivadas
-$scope.R.CtipO =  1;
-$scope.R.Cen =  6;
-$scope.R.Cnati =  5;
-$scope.R.Cin =  2;
-$scope.R.Cnatu =  4;
+// $scope.R = {};
+// //cultivadas
+// $scope.R.CtipO =  1;
+// $scope.R.Cen =  6;
+// $scope.R.Cnati =  5;
+// $scope.R.Cin =  2;
+// $scope.R.Cnatu =  4;
 
-$scope.R.CtipC =  1;
-$scope.R.Cag =  3;
-$scope.R.Cor =  2;
-$scope.R.Cfo =  2;
-$scope.R.Cma =  6;
+// $scope.R.CtipC =  1;
+// $scope.R.Cag =  3;
+// $scope.R.Cor =  2;
+// $scope.R.Cfo =  2;
+// $scope.R.Cma =  6;
 
-$scope.R.CtipR =  1;
-$scope.R.Cse =  4;
-$scope.R.Cve =  5;
-$scope.R.Ccv =  1;
-$scope.R.Can =  4;
-$scope.R.Cbi =  4;
-$scope.R.Cpe =  3;
-$scope.R.Cbu =  3;
-$scope.R.CtipP =  1;
-$scope.R.Cang =   2;
-$scope.R.Calg =   5;
-$scope.R.CagP =   1;
-$scope.R.Cent =   4;
-$scope.R.Cane =   3;
-$scope.R.Cart =   2;
-$scope.R.Cland =  1;
-$scope.R.Clan =   5;
+// $scope.R.CtipR =  1;
+// $scope.R.Cse =  4;
+// $scope.R.Cve =  5;
+// $scope.R.Ccv =  1;
+// $scope.R.Can =  4;
+// $scope.R.Cbi =  4;
+// $scope.R.Cpe =  3;
+// $scope.R.Cbu =  3;
+// $scope.R.CtipP =  1;
+// $scope.R.Cang =   2;
+// $scope.R.Calg =   5;
+// $scope.R.CagP =   1;
+// $scope.R.Cent =   4;
+// $scope.R.Cane =   3;
+// $scope.R.Cart =   2;
+// $scope.R.Cland =  1;
+// $scope.R.Clan =   5;
 
-//Introducidas
-$scope.R.Itipoc = 	1;
-$scope.R.Ia = 	3;
-$scope.R.Io = 	2;
-$scope.R.If = 	2;
-$scope.R.Ime = 	3;
-$scope.R.Ima = 	6;
+var R = {CtipO:  1,
+Cen:  6,
+Cnati:  5,
+Cin:  2,
+Cnatu:  4,
+CtipC:  1,
+Cag:  3,
+Cor:  2,
+Cfo:  2,
+Cma:  6,
+CtipR:  1,
+Cse:  4,
+Cve:  5,
+Ccv:  1,
+Can:  4,
+Cbi:  4,
+Cpe:  3,
+Cbu:  3,
+CtipP:  1,
+Cang:   2,
+Calg:   5,
+CagP:   1,
+Cent:   4,
+Cane:   3,
+Cart:   2,
+Cland:  1,
+Clan:   5,
+Itipoc :	1,
+Ia :	3,
+Io :	2,
+If :	2,
+Ime :	3,
+Ima :	6,
+Iotr :1,
+In :	5,
+NcEc :1,
+Nex :2,
+Np :6,
+Nv :5,
+Nr :4,
+Notr :1,
+Nen :3,
 
-$scope.R.Iotr = 	1;
-$scope.R.In = 	5;
+}
 
-//Nativas
-$scope.R.NcEc =	1;
-$scope.R.Nex =	2;
-$scope.R.Np =	6;
-$scope.R.Nv =	5;
-$scope.R.Nr =	4;
-$scope.R.Notr =	1;
-$scope.R.Nen =	3;
 
+// //Introducidas
+// $scope.R.Itipoc = 	1;
+// $scope.R.Ia = 	3;
+// $scope.R.Io = 	2;
+// $scope.R.If = 	2;
+// $scope.R.Ime = 	3;
+// $scope.R.Ima = 	6;
+
+// $scope.R.Iotr = 1;
+// $scope.R.In = 	5;
+
+// //Nativas
+// $scope.R.NcEc =	1;
+// $scope.R.Nex =	2;
+// $scope.R.Np =	6;
+// $scope.R.Nv =	5;
+// $scope.R.Nr =	4;
+// $scope.R.Notr =	1;
+// $scope.R.Nen =	3;
+// $scope.R = R;
+// var OriginalR = R;
 
 $scope.FlujoGenico = function (sp){
 	if(sp.relationship==4){ $scope.resultFlujoGenico = $scope.FlujoGenicoTransgenico(sp); }
@@ -224,7 +291,8 @@ $scope.FlujoGenicoCultivadas = function (sp){
 }
 
 $scope.rasC = function(sp){
-	$scope.SumaC = ($scope.R.CtipC+ ($scope.R.CtipO*2)+ $scope.R.CtipP + $scope.R.CtipR + $scope.R.Ccv + $scope.R.Cland + $scope.R.CagP )/8 ;
+	//$scope.SumaC = ($scope.R.CtipC+ ($scope.R.CtipO*2)+ $scope.R.CtipP + $scope.R.CtipR + $scope.R.Ccv + $scope.R.Cland + $scope.R.CagP )/8 ;
+	$scope.SumaC = 1;
 
     $scope.riesgoC = (
         $scope.R.Cen*sp.Cen + 
@@ -264,7 +332,8 @@ $scope.rasC = function(sp){
 }
 
 $scope.rasI = function(sp){
-	$scope.SumaI = ($scope.R.Itipoc + $scope.R.Iotr)/2 ;
+	//$scope.SumaI = ($scope.R.Itipoc + $scope.R.Iotr)/2 ;
+	$scope.SumaI = 1 ;
 
 	$scope.riesgoI  = (
 		$scope.R.Ia*sp.Ia + 
@@ -281,7 +350,8 @@ $scope.rasI = function(sp){
 }
 
 $scope.rasN = function(sp){
-	$scope.SumaN 	=	($scope.R.NcEc + $scope.R.Notr)/2;
+	//$scope.SumaN 	=	($scope.R.NcEc + $scope.R.Notr)/2;
+	$scope.SumaN 	=	1;
 	
 	$scope.riesgoN 	=	(
 		$scope.R.Np	 *	sp.Np 	+ 
@@ -303,6 +373,21 @@ $scope.riskLevel = function(flujo){
     if(flujo >=33.3333 && flujo< 66.6666){return 'Medio';};
     if(flujo >= 66.6666){return 'Alto';};
 }
+
+$scope.ponderacionPanel = false;
+
+$scope.ponderacion = function (sp){
+	$scope.ponderacionPanel = true;
+	$scope.ponderacionSp = sp;
+	$scope.R = angular.copy(R);
+	
+}
+$scope.ponderacionChao = function(){
+	$scope.ponderacionPanel = false;
+}
+// $scope.reset = function() {
+//  angular.copy(originalData, $scope.data); 
+// };
 
 
 });

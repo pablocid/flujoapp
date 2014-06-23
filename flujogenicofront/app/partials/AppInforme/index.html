@@ -1,33 +1,43 @@
-<div class="row">
+<style>
+	.ponderacion-panel{
+		position: fixed;
+		left:0px;
+		top:0px;
+		z-index: 999;
+		width: 100%;
+		height:100%;
+		background-color:rgba(0,0,0,0.4);
+		padding-top: 50px;
+	}
+	.fondoblanco{
+		background-color:rgba(255,255,255,0.85);
+	}
+	button.ponderacion{
+		display:none;
+	}
+	 h4:hover .ponderacion{
+		display: inline;
+	}
+</style>
 
-<div class="col-md-4">
+ - 
 
-<!-- ngModel is optional -->
+<div class="ponderacion-panel" ng-show="ponderacionPanel">
+	<div class="row">
+		<div class="col-xs-1"></div>
+<div class="col-sm-5 jumbotron">
+<h2>{{ponderacionSp.taxa}}</h2>
+<p>Riesgo de flujo génico propuesto: {{riskLevel(ponderacionSp.flujogenico)}} ({{ponderacionSp.flujogenico | number:0 }})</p>
 
-<!-- Nav tabs -->
-<ul class="nav nav-tabs">
-  <li ng-class="{active: selectedTab == 1}"><a ng-click="selectedTab = 1">Transgenicas</a></li>
-  <li ng-class="{active: selectedTab == 2}"><a ng-click="selectedTab = 2">Cultivadas</a></li>
-  <!-- <li ng-class="{active: selectedTab == 3}" ng-show="especieSeleccionada"><a ng-click="selectedTab = 3">Ponderaciones</a></li> -->
-</ul>
+<p> Riesgo de flujo génico personalizado: {{riskLevel(FlujoGenico(ponderacionSp))}} ({{FlujoGenico(ponderacionSp) | number:3}})</p>
 
-<!-- Tab panes -->
-<div style="overflow:scroll; height:450px;">
-<div ng-hide="transgenicas">
-	<img src="img/loading.gif" alt="" width="33px" style="display:block; margin:auto; margin-top:100px; ">
+<p><a class="btn btn-primary btn-lg" role="button" ng-click="ponderacionChao()">Estoy OK, Gracias</a></p>
 </div>
-  <div class="tab-pane" ng-show="selectedTab == 1" id="home">
-	<ul>
-		<li ng-repeat="spT in transgenicas"><a ng-click="especiesRelacionadas(spT,4)">{{spT.TAXA}}</a></li>
-	</ul>
-  </div>
-  <div class="tab-pane" ng-show="selectedTab == 2" id="profile">
-	<ul>
-		<li ng-repeat="spT in cultivadas"><a ng-click="especiesRelacionadas(spT,1)">{{spT.taxa}}</a></li>
-	</ul>
-  </div>
- <div class="tab-pane" ng-show="selectedTab == 3" id="ponderacion">
-  <ul ng-show="selectedTabR == 1">
+<div class="col-xs-1"></div>
+
+<div class="col-md-4 jumbotron " style="overflow:scroll; height:500px;">
+<div class="tab-pane ">
+  <ul ng-show="ponderacionSp.type == 1">
 	<li>Tipo de Origen : {{R.CtipO}}
 		<input type="range" ng-model="R.CtipO" min="1" max="6" >
 		<ul>
@@ -151,7 +161,7 @@
 	</li>
 </ul>
 
-<ul ng-show="selectedTabR == 2">
+<ul ng-show="ponderacionSp.type == 2">
 	<li>
 		Tipo de especie {{R.Itipoc}}
 		<input type="range" ng-model="R.Itipoc" min="1" max="6">
@@ -190,7 +200,7 @@
 	</li>
 </ul>
 
-<ul ng-show="selectedTabR == 3">
+<ul ng-show="ponderacionSp.type == 3">
 	<li>
 		Estatus de conservación	{{R.NcEc}}
 		<input type="range" ng-model="R.NcEc" min="1" max="6">
@@ -225,9 +235,48 @@
 	</li>
 </ul>
 
+</div>
+		</div>
+
+
+
+	</div>
+
+</div>
+
+
+
+
+
+<div class="row">
+
+<div class="col-md-4">
+
+<!-- ngModel is optional -->
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs">
+  <li ng-class="{active: selectedTab == 1}"><a ng-click="selectedTab = 1">Transgenicas</a></li>
+  <li ng-class="{active: selectedTab == 2}"><a ng-click="selectedTab = 2">Cultivadas</a></li>
+  <!-- <li ng-class="{active: selectedTab == 3}" ng-show="especieSeleccionada"><a ng-click="selectedTab = 3">Ponderaciones</a></li> -->
+</ul>
+
+<!-- Tab panes -->
+<div style="overflow:scroll; height:450px;">
+<div ng-hide="transgenicas">
+	<img src="img/loading.gif" alt="" width="33px" style="display:block; margin:auto; margin-top:100px; ">
+</div>
+  <div class="tab-pane" ng-show="selectedTab == 1" id="home">
+	<ul>
+		<li ng-repeat="spT in transgenicas"><a ng-click="especiesRelacionadas(spT,4)">{{spT.TAXA}}</a></li>
+	</ul>
   </div>
-
-
+  <div class="tab-pane" ng-show="selectedTab == 2" id="profile">
+	<ul>
+		<li ng-repeat="spT in cultivadas"><a ng-click="especiesRelacionadas(spT,1)">{{spT.taxa}}</a></li>
+	</ul>
+  </div>
+ 
 </div>
 
 
@@ -267,10 +316,17 @@
 <div class="page-header">
 	<h2>Asociación con especies cultivadas <small></small></h2>
 </div>
+
+
 							
 							<div ng-repeat="spCult in spRelation.cultivadas | orderBy:'flujogenico':reverse=true">
 								<div ng-class="{'alert alert-warning': riskLevel(spCult.flujogenico) == 'Medio', 'alert alert-danger': riskLevel(spCult.flujogenico) == 'Alto','alert alert-info': riskLevel(spCult.flujogenico) == 'Bajo'}">
-									<h4>{{spCult.taxa}} -  Riego de flujo Génico : {{spCult.flujogenico | number:0 }} - {{riskLevel(spCult.flujogenico)}}</h4>
+									<h4>
+										{{spCult.taxa}} -  Riego de flujo Génico : {{spCult.flujogenico | number:0 }} - {{riskLevel(spCult.flujogenico)}} 
+										<button class="btn btn-sm btn-primary pull-right ponderacion" ng-click="ponderacion(spCult)">
+											ponderación personalizada
+										</button>
+									</h4>
 								</div>
 								<div>
 									<h5>Descripción de la especie</h5>
@@ -326,8 +382,12 @@
 </div>
 
 							<div ng-repeat="spIntro in spRelation.introducidas | orderBy:'flujogenico':reverse=true">
-<div ng-class="{'alert alert-warning': riskLevel(spCult.flujogenico) == 'Medio', 'alert alert-danger': riskLevel(spCult.flujogenico) == 'Alto','alert alert-info': riskLevel(spIntro.flujogenico) == 'Bajo'}">
-<h4>{{spIntro.taxa}} - Riesgo de flujo Génico {{spIntro.flujogenico | number:0 }} - {{riskLevel(spIntro.flujogenico)}}</h4>
+<div ng-class="{'alert alert-warning': riskLevel(spIntro.flujogenico) == 'Medio', 'alert alert-danger': riskLevel(spIntro.flujogenico) == 'Alto','alert alert-info': riskLevel(spIntro.flujogenico) == 'Bajo'}">
+<h4>{{spIntro.taxa}} - Riesgo de flujo Génico {{spIntro.flujogenico | number:0 }} - {{riskLevel(spIntro.flujogenico)}}
+										<button class="btn btn-sm btn-primary pull-right ponderacion" ng-click="ponderacion(spIntro)">
+											ponderación personalizada
+										</button>
+</h4>
 </div>
 
 								
@@ -335,7 +395,7 @@
 									<h5>Descripción de la especie</h5>
 									<p class="alert">{{ description(spIntro) }}</p>
 <div ng-show="spIntro.regiones">
-	<h4>Distribución por región</h4>
+	<h5>Distribución por región</h5>
 <table class="table" >
 	<tr>
 		<td>I</td>
@@ -385,8 +445,12 @@
 </div>
 							<div ng-repeat="spNat in spRelation.nativas | orderBy:'flujogenico':reverse=true">
 
-<div ng-class="{'alert alert-warning': riskLevel(spCult.flujogenico) == 'Medio', 'alert alert-danger': riskLevel(spCult.flujogenico) == 'Alto','alert alert-info': riskLevel(spNat.flujogenico) == 'Bajo'}">
-<h4>{{spNat.taxa}} - Riesgo de flujo Génico {{spNat.flujogenico | number:0 }} - {{riskLevel(spNat.flujogenico)}}</h4>
+<div ng-class="{'alert alert-warning': riskLevel(spNat.flujogenico) == 'Medio', 'alert alert-danger': riskLevel(spNat.flujogenico) == 'Alto','alert alert-info': riskLevel(spNat.flujogenico) == 'Bajo'}">
+<h4>{{spNat.taxa}} - Riesgo de flujo Génico {{spNat.flujogenico | number:0 }} - {{riskLevel(spNat.flujogenico)}}
+										<button class="btn btn-sm btn-primary pull-right ponderacion" ng-click="ponderacion(spNat)">
+											ponderación personalizada
+										</button>
+</h4>
 </div>
 								
 								<div>
@@ -397,7 +461,7 @@
 
 
 <div ng-show="spNat.regiones">
-	<h4>Distribución por región</h4>
+	<h5>Distribución por región</h5>
 <table class="table" >
 	<tr>
 		<td>I</td>
@@ -444,3 +508,8 @@
             </div>
 </div>
 </div>
+
+
+
+
+
