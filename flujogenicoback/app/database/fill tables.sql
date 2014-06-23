@@ -712,8 +712,14 @@ create table flujoapp.dstr_provincia_src select * from flujo_genico.test_distrib
 create table flujoapp.dstr_comuna_src select * from flujo_genico.test_distribucion_comuna;
 
 
+-- Crear tabla de nombre de regiones
+-- migrations 
+-- php artisan migrate:make create_region_name_table
+-- php artisan migrate
 
+INSERT INTO flujoapp.dstr_region_name (id, name, created_at, updated_at	)
 
+SELECT id, name, NOW(), NOW() FROM flujo_genico.test_distribucion_region;
 
 
 

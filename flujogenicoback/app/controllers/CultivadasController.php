@@ -21,7 +21,8 @@ class CultivadasController extends BaseController {
 	}
 
 	public function show($id){
-		$sp = Cultivadas::find($id);
+		$sp = Cultivadas::with(
+			['nombreComunEs','nombreComunEn','familia','regiones'])->find($id);
 		return $sp;
 	}
 

@@ -1,13 +1,3 @@
-<div ng-if="currentUser">Welcome, {{ currentUser.name }}</div>
-<div ng-if="isAuthorized(userRoles.admin)">You're admin.</div>
-<div ng-switch on="currentUser.role">
-  <div ng-switch-when="userRoles.admin">You're admin.</div>
-  <div ng-switch-when="userRoles.editor">You're editor.</div>
-  <div ng-switch-default>You're something else.</div>
-</div>
-
-
-
 <div class="row">
 
 <div class="col-md-4">
@@ -18,7 +8,7 @@
 <ul class="nav nav-tabs">
   <li ng-class="{active: selectedTab == 1}"><a ng-click="selectedTab = 1">Transgenicas</a></li>
   <li ng-class="{active: selectedTab == 2}"><a ng-click="selectedTab = 2">Cultivadas</a></li>
-  <li ng-class="{active: selectedTab == 3}" ng-show="especieSeleccionada"><a ng-click="selectedTab = 3">Ponderaciones</a></li>
+  <!-- <li ng-class="{active: selectedTab == 3}" ng-show="especieSeleccionada"><a ng-click="selectedTab = 3">Ponderaciones</a></li> -->
 </ul>
 
 <!-- Tab panes -->
@@ -245,19 +235,6 @@
 
 <div class="col-md-8">
 
-	<!-- <div ng-show="spRelation.cultivadas">
-		<h4>Asociación con especies cultivadas</h4>
-		<div ng-repeat="spCult in spRelation.cultivadas">{{spCult.taxa}}</div>
-	</div>
-	<div ng-show="spRelation.introducidas">
-		<h4>Asociación con especies introducidas</h4>
-		<div ng-repeat="spCult in spRelation.introducidas">{{spCult.taxa}}</div>
-	</div>
-	<div ng-show="spRelation.nativas">
-		<h4>Asociación con especies nativas</h4>
-		<div ng-repeat="spCult in spRelation.nativas">{{spCult.taxa}}</div>
-	</div> -->
-	
 	<div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title" ng-show="especieSeleccionada"> Especie seleccionada: {{especieSeleccionada.nombre}}</h3>
@@ -287,21 +264,179 @@
 							
 						</div>
                         <div ng-show="selectedTabR == 1 && spRelation">
-							<h4>Asociación con especies cultivadas</h4>
+<div class="page-header">
+	<h2>Asociación con especies cultivadas <small></small></h2>
+</div>
+							
 							<div ng-repeat="spCult in spRelation.cultivadas | orderBy:'flujogenico':reverse=true">
-								{{spCult.taxa}} -  Riego de flujo Génico : {{spCult.flujogenico | number:0 }} <a ng-click="FlujoGenico(spCult)"></a> 
+								<div ng-class="{'alert alert-warning': riskLevel(spCult.flujogenico) == 'Medio', 'alert alert-danger': riskLevel(spCult.flujogenico) == 'Alto','alert alert-info': riskLevel(spCult.flujogenico) == 'Bajo'}">
+									<h4>{{spCult.taxa}} -  Riego de flujo Génico : {{spCult.flujogenico | number:0 }} - {{riskLevel(spCult.flujogenico)}}</h4>
+								</div>
+								<div>
+									<h5>Descripción de la especie</h5>
+									<p class="alert">{{ description(spCult) }}</p>
+<div ng-show="spCult.regiones">
+								
+<h5>Distribución por región</h5>
+<div class="alert">
+<table class="table" >
+	<tr>
+		<td>I</td>
+		<td>II</td>
+		<td>III</td>
+		<td>IV</td>
+		<td>V</td>
+		<td>VI</td>
+		<td>VII</td>
+		<td>VIII</td>
+		<td>IX</td>
+		<td>X</td>
+		<td>XI</td>
+		<td>XII</td>
+		<td>XIII</td>
+		<td>XIV</td>
+		<td>XV</td>
+	</tr>
+	<tr>
+		<td title="{{spCult.distribucion.I.nombre}}"><span ng-show="spCult.distribucion.I">&#10004;</span></td>
+		<td title="{{spCult.distribucion.II.nombre}}"><span ng-show="spCult.distribucion.II">&#10004;</span></td>
+		<td title="{{spCult.distribucion.III.nombre}}"><span ng-show="spCult.distribucion.III">&#10004;</span></td>
+		<td title="{{spCult.distribucion.IV.nombre}}"><span ng-show="spCult.distribucion.IV">&#10004;</span></td>
+		<td title="{{spCult.distribucion.V.nombre}}"><span ng-show="spCult.distribucion.V">&#10004;</span></td>
+		<td title="{{spCult.distribucion.VI.nombre}}"><span ng-show="spCult.distribucion.VI">&#10004;</span></td>
+		<td title="{{spCult.distribucion.VII.nombre}}"><span ng-show="spCult.distribucion.VII">&#10004;</span></td>
+		<td title="{{spCult.distribucion.VIII.nombre}}"><span ng-show="spCult.distribucion.VIII">&#10004;</span></td>
+		<td title="{{spCult.distribucion.IX.nombre}}"><span ng-show="spCult.distribucion.IX">&#10004;</span></td>
+		<td title="{{spCult.distribucion.X.nombre}}"><span ng-show="spCult.distribucion.X">&#10004;</span></td>
+		<td title="{{spCult.distribucion.XI.nombre}}"><span ng-show="spCult.distribucion.XI">&#10004;</span></td>
+		<td title="{{spCult.distribucion.XII.nombre}}"><span ng-show="spCult.distribucion.XII">&#10004;</span></td>
+		<td title="{{spCult.distribucion.XIII.nombre}}"><span ng-show="spCult.distribucion.XIII">&#10004;</span></td>
+		<td title="{{spCult.distribucion.XIV.nombre}}"><span ng-show="spCult.distribucion.XIV">&#10004;</span></td>
+		<td title="{{spCult.distribucion.XV.nombre}}"><span ng-show="spCult.distribucion.XV">&#10004;</span></td>
+	</tr>
+</table>
+</div>
+</div>
+								</div>
 							</div>
                         </div>
                         <div ng-show="selectedTabR == 2 && spRelation">
-							<h4>Asociación con especies introducidas</h4>
+<div class="page-header">
+	<h2>Asociación con especies introducidas</h2>
+</div>
+
 							<div ng-repeat="spIntro in spRelation.introducidas | orderBy:'flujogenico':reverse=true">
-								{{spIntro.taxa}} - {{FlujoGenico(spIntro) | number:0}} -  flujogenico back: {{spIntro.flujogenico | number:0 }}
+<div ng-class="{'alert alert-warning': riskLevel(spCult.flujogenico) == 'Medio', 'alert alert-danger': riskLevel(spCult.flujogenico) == 'Alto','alert alert-info': riskLevel(spIntro.flujogenico) == 'Bajo'}">
+<h4>{{spIntro.taxa}} - Riesgo de flujo Génico {{spIntro.flujogenico | number:0 }} - {{riskLevel(spIntro.flujogenico)}}</h4>
+</div>
+
+								
+								<div>
+									<h5>Descripción de la especie</h5>
+									<p class="alert">{{ description(spIntro) }}</p>
+<div ng-show="spIntro.regiones">
+	<h4>Distribución por región</h4>
+<table class="table" >
+	<tr>
+		<td>I</td>
+		<td>II</td>
+		<td>III</td>
+		<td>IV</td>
+		<td>V</td>
+		<td>VI</td>
+		<td>VII</td>
+		<td>VIII</td>
+		<td>IX</td>
+		<td>X</td>
+		<td>XI</td>
+		<td>XII</td>
+		<td>XIII</td>
+		<td>XIV</td>
+		<td>XV</td>
+	</tr>
+	<tr>
+		<td title="{{spIntro.distribucion.I.nombre}}"><span ng-show="spIntro.distribucion.I">&#10004;</span></td>
+		<td title="{{spIntro.distribucion.II.nombre}}"><span ng-show="spIntro.distribucion.II">&#10004;</span></td>
+		<td title="{{spIntro.distribucion.III.nombre}}"><span ng-show="spIntro.distribucion.III">&#10004;</span></td>
+		<td title="{{spIntro.distribucion.IV.nombre}}"><span ng-show="spIntro.distribucion.IV">&#10004;</span></td>
+		<td title="{{spIntro.distribucion.V.nombre}}"><span ng-show="spIntro.distribucion.V">&#10004;</span></td>
+		<td title="{{spIntro.distribucion.VI.nombre}}"><span ng-show="spIntro.distribucion.VI">&#10004;</span></td>
+		<td title="{{spIntro.distribucion.VII.nombre}}"><span ng-show="spIntro.distribucion.VII">&#10004;</span></td>
+		<td title="{{spIntro.distribucion.VIII.nombre}}"><span ng-show="spIntro.distribucion.VIII">&#10004;</span></td>
+		<td title="{{spIntro.distribucion.IX.nombre}}"><span ng-show="spIntro.distribucion.IX">&#10004;</span></td>
+		<td title="{{spIntro.distribucion.X.nombre}}"><span ng-show="spIntro.distribucion.X">&#10004;</span></td>
+		<td title="{{spIntro.distribucion.XI.nombre}}"><span ng-show="spIntro.distribucion.XI">&#10004;</span></td>
+		<td title="{{spIntro.distribucion.XII.nombre}}"><span ng-show="spIntro.distribucion.XII">&#10004;</span></td>
+		<td title="{{spIntro.distribucion.XIII.nombre}}"><span ng-show="spIntro.distribucion.XIII">&#10004;</span></td>
+		<td title="{{spIntro.distribucion.XIV.nombre}}"><span ng-show="spIntro.distribucion.XIV">&#10004;</span></td>
+		<td title="{{spIntro.distribucion.XV.nombre}}"><span ng-show="spIntro.distribucion.XV">&#10004;</span></td>
+	</tr>
+</table>
+</div>								
+
+
+								</div>
 							</div>
                         </div>
                         <div ng-show="selectedTabR == 3 && spRelation">
-                        	<h4>Asociación con especies nativas</h4>
+
+<div class="page-header">
+	<h2>Asociación con especies nativas</h2>
+</div>
 							<div ng-repeat="spNat in spRelation.nativas | orderBy:'flujogenico':reverse=true">
-								{{spNat.taxa}} - {{FlujoGenico(spNat) | number:0}}-  flujogenico back: {{spNat.flujogenico | number:0 }} <br> {{spNat}}
+
+<div ng-class="{'alert alert-warning': riskLevel(spCult.flujogenico) == 'Medio', 'alert alert-danger': riskLevel(spCult.flujogenico) == 'Alto','alert alert-info': riskLevel(spNat.flujogenico) == 'Bajo'}">
+<h4>{{spNat.taxa}} - Riesgo de flujo Génico {{spNat.flujogenico | number:0 }} - {{riskLevel(spNat.flujogenico)}}</h4>
+</div>
+								
+								<div>
+
+									<h5>Descripción de la especie</h5>
+									<p class="alert">{{ description(spNat) }}</p>
+
+
+
+<div ng-show="spNat.regiones">
+	<h4>Distribución por región</h4>
+<table class="table" >
+	<tr>
+		<td>I</td>
+		<td>II</td>
+		<td>III</td>
+		<td>IV</td>
+		<td>V</td>
+		<td>VI</td>
+		<td>VII</td>
+		<td>VIII</td>
+		<td>IX</td>
+		<td>X</td>
+		<td>XI</td>
+		<td>XII</td>
+		<td>XIII</td>
+		<td>XIV</td>
+		<td>XV</td>
+	</tr>
+	<tr>
+		<td title="{{spNat.distribucion.I.nombre}}"><span ng-show="spNat.distribucion.I">&#10004;</span></td>
+		<td title="{{spNat.distribucion.II.nombre}}"><span ng-show="spNat.distribucion.II">&#10004;</span></td>
+		<td title="{{spNat.distribucion.III.nombre}}"><span ng-show="spNat.distribucion.III">&#10004;</span></td>
+		<td title="{{spNat.distribucion.IV.nombre}}"><span ng-show="spNat.distribucion.IV">&#10004;</span></td>
+		<td title="{{spNat.distribucion.V.nombre}}"><span ng-show="spNat.distribucion.V">&#10004;</span></td>
+		<td title="{{spNat.distribucion.VI.nombre}}"><span ng-show="spNat.distribucion.VI">&#10004;</span></td>
+		<td title="{{spNat.distribucion.VII.nombre}}"><span ng-show="spNat.distribucion.VII">&#10004;</span></td>
+		<td title="{{spNat.distribucion.VIII.nombre}}"><span ng-show="spNat.distribucion.VIII">&#10004;</span></td>
+		<td title="{{spNat.distribucion.IX.nombre}}"><span ng-show="spNat.distribucion.IX">&#10004;</span></td>
+		<td title="{{spNat.distribucion.X.nombre}}"><span ng-show="spNat.distribucion.X">&#10004;</span></td>
+		<td title="{{spNat.distribucion.XI.nombre}}"><span ng-show="spNat.distribucion.XI">&#10004;</span></td>
+		<td title="{{spNat.distribucion.XII.nombre}}"><span ng-show="spNat.distribucion.XII">&#10004;</span></td>
+		<td title="{{spNat.distribucion.XIII.nombre}}"><span ng-show="spNat.distribucion.XIII">&#10004;</span></td>
+		<td title="{{spNat.distribucion.XIV.nombre}}"><span ng-show="spNat.distribucion.XIV">&#10004;</span></td>
+		<td title="{{spNat.distribucion.XV.nombre}}"><span ng-show="spNat.distribucion.XV">&#10004;</span></td>
+	</tr>
+</table>
+</div>		
+
+								</div>
 							</div>
 						</div>
                     </div>

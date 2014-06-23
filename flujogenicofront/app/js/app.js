@@ -3,11 +3,9 @@
 // Declare app level module which depends on filters, and services
 var flujoApp = angular.module('flujoApp', [
 	'ngRoute',
-	// 'ngResource',
 	'restangular',
 	'ngSanitize',
 	'ngCookies'
-	//'mgcrea.ngStrap'
 ])
 .config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/home'		, {templateUrl: 'partials/AppInforme/index.html',   controller: 'homeController'});
@@ -17,8 +15,8 @@ var flujoApp = angular.module('flujoApp', [
 }]);
 
 flujoApp.run(function($cookies, Restangular, $location){
-	Restangular.all('/getcookies').post().then(function(data){
-		if(data){
+	Restangular.all('auth/check').customGET().then(function(data){
+		if(data=='true'){
 			$location.path('/home');
 		}else{
 			$location.path('/login');

@@ -2,13 +2,12 @@
 
 flujoApp.controller('logoutController', function ($scope, Restangular, $http, $window, $cookies, $cookieStore, $location, $timeout){
 
-	Restangular.all('logout').customGET()
+	Restangular.all('auth/logout').customGET()
 	.then(function (data){
 
-	//$scope.cleanStorage();
-	$timeout(function() {
-	 	$location.path('/login');
-	 }, 500);
+		$timeout(function() {
+		 	$location.path('/login');
+		 }, 500);
 
 	});
 

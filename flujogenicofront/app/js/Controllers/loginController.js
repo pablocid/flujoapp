@@ -15,19 +15,14 @@ flujoApp.controller('loginController', function ($scope, Restangular, $http, $wi
 		$scope.loginWait = true;
 		Restangular.all('auth/login').customPOST(credentials)
 		.then(function (data){
-			$scope.credentials = '';
-			$location.path('/home');
-			//$scope.things = data;
+			if(data.log){
+				$scope.credentials = '';
+				$location.path('/home');
+			}else{
+				$scope.loginWait = false;
+			}
+			$scope.things = data;
 		});
 	}
 
-	//$scope.login($scope.credentials);
-
-	$scope.cleanStorage = function(){
-		$window.sessionStorage.token = '';
-		$window.localStorage.token = '';
-		$cookieStore.remove("laravel_session");
-		delete $cookies["laravel_session"];
-	}
-	
 });

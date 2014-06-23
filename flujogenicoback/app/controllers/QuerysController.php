@@ -2,11 +2,7 @@
 
 class QuerysController extends BaseController {
 
-	function __construct() {
-	        // ...
-		$this->beforeFilter('auth', array() );
-	    //$this->beforeFilter('auth', array('except' => array('getLogin','postLoginup')));
-	 }
+	function __construct() { $this->beforeFilter('auth', array() ); }
 
 	public function getRelacionadas($id, $typeRel)
 	{
@@ -30,11 +26,11 @@ class QuerysController extends BaseController {
 			if($generos_id==[]){ $relacion = []; }
 			else{
 				switch ($type) {
-					case 1: $relacion = Cultivadas::whereIn('id',$generos_id)->get()->toArray(); break;
-					case 2: $relacion = Introducidas::whereIn('id',$generos_id)->get()->toArray(); break;
-					case 3: $relacion = Nativas::whereIn('id',$generos_id)->get()->toArray(); break;
+					case 1: $relacion = Cultivadas::with(array('nombreComunEs','nombreComunEn','regiones','familia'))->whereIn('id',$generos_id)->get()->toArray(); break;
+					case 2: $relacion = Introducidas::with(array('nombreComunEs','nombreComunEn','regiones','familia'))->whereIn('id',$generos_id)->get()->toArray(); break;
+					case 3: $relacion = Nativas::with(array('nombreComunEs','nombreComunEn','regiones','familia'))->whereIn('id',$generos_id)->get()->toArray(); break;
 					case 4: $relacion = Transgenicas::whereIn('id',$generos_id)->get()->toArray(); break;
-					default: $relacion = Cultivadas::whereIn('id',$generos_id)->get()->toArray(); break;
+					//default: $relacion = Cultivadas::whereIn('id',$generos_id)->get()->toArray(); break;
 				}
 				
 				for ($i=0; $i < count($relacion) ; $i++) { 
