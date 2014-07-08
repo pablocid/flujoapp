@@ -5,82 +5,33 @@ flujoApp.controller('homeController', function ($scope, Restangular, $http){
 var CultivadasCollection = Restangular.all('cultivadas');
 var TransgenicasCollection = Restangular.all('transgenicas');
 
-//CultivadasCollection.getList().then( function(data){ $scope.cultivadas = data; } );
+CultivadasCollection.getList().then( function(data){ $scope.cultivadas = data; } );
 
 TransgenicasCollection.getList().then( function(data){ $scope.transgenicas = data; });
 
 $scope.selectedTab= 1;
 $scope.QueryRel = Restangular.all('query/');
-
-var query = {
-	cache : function (sp, type){
-
-	}
-};
-
-var myFunc = function (sp,type) { 
-	var identify = sp.id+'-'+type;
-	if (!myFunc.cache[identify]) {
-		var result = {};
-		Restangular.all('query').one(sp.id,type).get().then(function(data){ 
-			for (var i = data.cultivadas.length - 1; i >= 0; i--) { distribution(data.cultivadas[i]); };
-			for (var i = data.introducidas.length - 1; i >= 0; i--) { distribution(data.introducidas[i]); };
-			for (var i = data.nativas.length - 1; i >= 0; i--) { distribution(data.nativas[i]); };
-			myFunc.cache[identify] = data;
-			$scope.spRelation = myFunc.cache[identify];
-
-			if($scope.spRelation.cultivadas.length !== 0){ $scope.selectedTabR=1}
-			else if($scope.spRelation.introducidas.length !== 0){ $scope.selectedTabR=2}
-			else if($scope.spRelation.nativas.length !== 0){ $scope.selectedTabR=3}
-			else {$scope.selectedTabR=0}
-			
-		});
-	}else{
-		$scope.spRelation = myFunc.cache[identify];	
-		if($scope.spRelation.cultivadas.length !== 0){ $scope.selectedTabR=1}
-			else if($scope.spRelation.introducidas.length !== 0){ $scope.selectedTabR=2}
-			else if($scope.spRelation.nativas.length !== 0){ $scope.selectedTabR=3}
-			else {$scope.selectedTabR=0}
-	}
-	
-};
-// cache storage 
-myFunc.cache = {};
-
-
 $scope.especiesRelacionadas = function (sp, type){
-
 	$scope.loadingRelation = 1 ;
 	$scope.spRelation = '';
-
 	//Restangular.one('query/'+sp.id,type).get().then(function(data){
+	$scope.QueryRel.one(sp.id,type).get().then(function(data){
+		for (var i = data.cultivadas.length - 1; i >= 0; i--) { distribution(data.cultivadas[i]); };
+		for (var i = data.introducidas.length - 1; i >= 0; i--) { distribution(data.introducidas[i]); };
+		for (var i = data.nativas.length - 1; i >= 0; i--) { distribution(data.nativas[i]); };
+		$scope.spRelation = data;
+		$scope.loadingRelation = '' ;
+		//Visual
+		if($scope.spRelation.cultivadas.length !== 0){ $scope.selectedTabR=1}
+		else if($scope.spRelation.introducidas.length !== 0){ $scope.selectedTabR=2}
+		else if($scope.spRelation.nativas.length !== 0){ $scope.selectedTabR=3}
+		else {$scope.selectedTabR=0}
 
-	// $scope.QueryRel.one(sp.id,type).get().then(
-	// 	function(data){ 
-	// 		$scope.spRelation = data; 
-	// 		return alert('data OK');
-	// 	} 
-	// );
-	//$scope.spRelation = Restangular.all('query').one(sp.id,type).get().then(function(data){ return data; });
-	myFunc(sp,type);
-	// $scope.QueryRel.one(sp.id,type).get().then(function(data){
-	// 	for (var i = data.cultivadas.length - 1; i >= 0; i--) { distribution(data.cultivadas[i]); };
-	// 	for (var i = data.introducidas.length - 1; i >= 0; i--) { distribution(data.introducidas[i]); };
-	// 	for (var i = data.nativas.length - 1; i >= 0; i--) { distribution(data.nativas[i]); };
-		
-
-	$scope.loadingRelation = '' ;
-	//Visual
-	// if($scope.spRelation.cultivadas.length !== 0){ $scope.selectedTabR=1}
-	// else if($scope.spRelation.introducidas.length !== 0){ $scope.selectedTabR=2}
-	// else if($scope.spRelation.nativas.length !== 0){ $scope.selectedTabR=3}
-	// else {$scope.selectedTabR=0}
-
-	$scope.especieSeleccionada = sp;
-	$scope.flujoTransgenico = $scope.especieSeleccionada['Flujo Génico'];
-	if(type==4){$scope.especieSeleccionada.nombre = sp.TAXA;}else{$scope.especieSeleccionada.nombre = sp.taxa;}
+		$scope.especieSeleccionada = sp;
+		$scope.flujoTransgenico = $scope.especieSeleccionada['Flujo Génico'];
+		if(type==4){$scope.especieSeleccionada.nombre = sp.TAXA;}else{$scope.especieSeleccionada.nombre = sp.taxa;}
 		// --- Visual
-	// });
+	});
 };
 
 

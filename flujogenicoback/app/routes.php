@@ -6,8 +6,8 @@
 //     header("Access-Control-Allow-Origin: $http_origin");
 // }
 
-//header("Access-Control-Allow-Origin: *");
-header('Access-Control-Allow-Origin: http://flujogenicofront.dev:8081');
+header("Access-Control-Allow-Origin: *");
+header('Access-Control-Allow-Origin: http://flujogenicofront.dev');
 
 
 header('Access-Control-Allow-Credentials: true');
