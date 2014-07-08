@@ -2,7 +2,7 @@
 
 flujoApp.config(function(RestangularProvider) {
 
-	RestangularProvider.setBaseUrl('http://flujogenicoback.dev');
+	RestangularProvider.setBaseUrl('http://flujogenicoback.dev:8081');
 	//RestangularProvider.setDefaultHeaders({'X-Auth-Token': window.sessionStorage.token});
 	RestangularProvider.setDefaultHttpFields({ withCredentials: true });
 
