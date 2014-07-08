@@ -20,16 +20,17 @@
 	}
 </style>
 
- - 
+  
 
-<div class="ponderacion-panel" ng-show="ponderacionPanel">
+<div class="ponderacion-panel" ng-show="ponderacionSp">
+	<button ng-click="refresh()">Refrescar</button>
 	<div class="row">
 		<div class="col-xs-1"></div>
 <div class="col-sm-5 jumbotron">
 <h2>{{ponderacionSp.taxa}}</h2>
 <p>Riesgo de flujo génico propuesto: {{riskLevel(ponderacionSp.flujogenico)}} ({{ponderacionSp.flujogenico | number:0 }})</p>
 
-<p> Riesgo de flujo génico personalizado: {{riskLevel(FlujoGenico(ponderacionSp))}} ({{FlujoGenico(ponderacionSp) | number:3}})</p>
+<p> Riesgo de flujo génico personalizado: {{ponderacionSpR}} ({{ponderacionSpF | number:3}})</p>
 
 <p><a class="btn btn-primary btn-lg" role="button" ng-click="ponderacionChao()">Estoy OK, Gracias</a></p>
 </div>
@@ -508,8 +509,4 @@
             </div>
 </div>
 </div>
-
-
-
-
 

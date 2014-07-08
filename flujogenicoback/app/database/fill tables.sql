@@ -721,8 +721,14 @@ INSERT INTO flujoapp.dstr_region_name (id, name, created_at, updated_at	)
 
 SELECT id, name, NOW(), NOW() FROM flujo_genico.test_distribucion_region;
 
+-- Crear tabla de nombre de comunas
+-- migrations 
+-- php artisan migrate:make create_comunas_name_table
+-- php artisan migrate
 
+INSERT INTO flujoapp.dstr_comuna_name (id, name, created_at, updated_at	)
 
+SELECT id, name, NOW(), NOW() FROM flujo_genico.test_distribucion_comuna;
 
 
 

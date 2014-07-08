@@ -8,6 +8,10 @@ public function regiones(){
 	return $this->hasMany('dstrRegion', 'id_taxa', 'id')->where('type',2)->with('nombre');
 }
 
+public function comunas(){
+	return $this->hasMany('dstrComuna', 'id_taxa', 'id')->where('type',2)->with('nombre');
+}
+
 public function familia(){
 	return $this->hasOne('Familia', 'id_taxa', 'id')->where('type',2)->with('nombre');
 }

@@ -2,19 +2,6 @@
 
 class CultivadasController extends BaseController {
 
-	/*
-	|--------------------------------------------------------------------------
-	| Default Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| You may wish to use controllers instead of, or in addition to, Closure
-	| based routes. That's great! Here is an example controller method to
-	| get you started. To route to this controller, just add the route:
-	|
-	|	Route::get('/', 'SpeciesController@showSpecies');
-	|
-	*/
-
 	public function index(){
 		$species = Cultivadas::orderBy( 'taxa','ASC')->get();
 		return $species;
@@ -22,7 +9,16 @@ class CultivadasController extends BaseController {
 
 	public function show($id){
 		$sp = Cultivadas::with(
-			['nombreComunEs','nombreComunEn','familia','regiones'])->find($id);
+			['comunas','nombreComunEs','nombreComunEn','familia','regiones']
+			)->find($id);
+
+		function getDistribucion($sp){
+			//$elements = dstrComuna::where('id_taxa','=',$sp['id'])->where('type','=',1)->get()->toArray();
+			$elements = dstrRegion::where('id_taxa','=',$sp['id'])->where('type','=',1)->get()->toArray();
+
+			return $elements;
+		}
+		$sp['distribucion'] = getDistribucion($sp);
 		return $sp;
 	}
 

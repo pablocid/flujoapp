@@ -10,11 +10,12 @@ CultivadasCollection.getList().then( function(data){ $scope.cultivadas = data; }
 TransgenicasCollection.getList().then( function(data){ $scope.transgenicas = data; });
 
 $scope.selectedTab= 1;
-
+$scope.QueryRel = Restangular.all('query/');
 $scope.especiesRelacionadas = function (sp, type){
 	$scope.loadingRelation = 1 ;
 	$scope.spRelation = '';
-	Restangular.one('query/'+sp.id,type).get().then(function(data){
+	//Restangular.one('query/'+sp.id,type).get().then(function(data){
+	$scope.QueryRel.one(sp.id,type).get().then(function(data){
 		for (var i = data.cultivadas.length - 1; i >= 0; i--) { distribution(data.cultivadas[i]); };
 		for (var i = data.introducidas.length - 1; i >= 0; i--) { distribution(data.introducidas[i]); };
 		for (var i = data.nativas.length - 1; i >= 0; i--) { distribution(data.nativas[i]); };
@@ -160,39 +161,7 @@ if(sp.regiones.length != 0){
 }
 
 //Objeto con las ponderaciones
-// $scope.R = {};
-// //cultivadas
-// $scope.R.CtipO =  1;
-// $scope.R.Cen =  6;
-// $scope.R.Cnati =  5;
-// $scope.R.Cin =  2;
-// $scope.R.Cnatu =  4;
-
-// $scope.R.CtipC =  1;
-// $scope.R.Cag =  3;
-// $scope.R.Cor =  2;
-// $scope.R.Cfo =  2;
-// $scope.R.Cma =  6;
-
-// $scope.R.CtipR =  1;
-// $scope.R.Cse =  4;
-// $scope.R.Cve =  5;
-// $scope.R.Ccv =  1;
-// $scope.R.Can =  4;
-// $scope.R.Cbi =  4;
-// $scope.R.Cpe =  3;
-// $scope.R.Cbu =  3;
-// $scope.R.CtipP =  1;
-// $scope.R.Cang =   2;
-// $scope.R.Calg =   5;
-// $scope.R.CagP =   1;
-// $scope.R.Cent =   4;
-// $scope.R.Cane =   3;
-// $scope.R.Cart =   2;
-// $scope.R.Cland =  1;
-// $scope.R.Clan =   5;
-
-var R = {CtipO:  1,
+var Re = {CtipO:  1,
 Cen:  6,
 Cnati:  5,
 Cin:  2,
@@ -236,29 +205,6 @@ Notr :1,
 Nen :3,
 
 }
-
-
-// //Introducidas
-// $scope.R.Itipoc = 	1;
-// $scope.R.Ia = 	3;
-// $scope.R.Io = 	2;
-// $scope.R.If = 	2;
-// $scope.R.Ime = 	3;
-// $scope.R.Ima = 	6;
-
-// $scope.R.Iotr = 1;
-// $scope.R.In = 	5;
-
-// //Nativas
-// $scope.R.NcEc =	1;
-// $scope.R.Nex =	2;
-// $scope.R.Np =	6;
-// $scope.R.Nv =	5;
-// $scope.R.Nr =	4;
-// $scope.R.Notr =	1;
-// $scope.R.Nen =	3;
-// $scope.R = R;
-// var OriginalR = R;
 
 $scope.FlujoGenico = function (sp){
 	if(sp.relationship==4){ $scope.resultFlujoGenico = $scope.FlujoGenicoTransgenico(sp); }
@@ -374,16 +320,34 @@ $scope.riskLevel = function(flujo){
     if(flujo >= 66.6666){return 'Alto';};
 }
 
-$scope.ponderacionPanel = false;
+$scope.ponderacionSp = '';
 
-$scope.ponderacion = function (sp){
-	$scope.ponderacionPanel = true;
-	$scope.ponderacionSp = sp;
-	$scope.R = angular.copy(R);
+$scope.R = angular.copy(Re);
+
+$scope.$watch('R',function(R){
+	if(R){
+		$scope.ponderacion($scope.ponderacionSp);
+	}
 	
+}, true);
+$scope.ponderacion = function (sp){
+	//$scope.ponderacionPanel = true;
+	
+	
+	$scope.ponderacionSp = sp;
+	$scope.ponderacionSpF = $scope.FlujoGenico($scope.ponderacionSp);
+	$scope.ponderacionSpR = $scope.riskLevel($scope.ponderacionSpF);
 }
+
+$scope.refresh = function(){
+	  $scope.$apply();	
+}
+
 $scope.ponderacionChao = function(){
-	$scope.ponderacionPanel = false;
+	$scope.ponderacionSp = '';
+
+	$scope.R = angular.copy(Re);
+
 }
 // $scope.reset = function() {
 //  angular.copy(originalData, $scope.data); 

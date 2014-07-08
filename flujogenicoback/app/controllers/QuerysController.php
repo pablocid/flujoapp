@@ -10,6 +10,7 @@ class QuerysController extends BaseController {
 		$codesp = Especie::where('id_taxa',$id )->where('type',$typeRel)->first()->code;
 
 
+
 		function relations($genero, $especie, $type, $typeRel ,$id){
 			$match_generos = Genero::where('code',$genero)->where('type',$type)->get();
 			$match_especies = Especie::where('code', $especie)->where('type',$type)->get();
@@ -25,17 +26,19 @@ class QuerysController extends BaseController {
 
 			if($generos_id==[]){ $relacion = []; }
 			else{
+
 				switch ($type) {
-					case 1: $relacion = Cultivadas::with(array('nombreComunEs','nombreComunEn','regiones','familia'))->whereIn('id',$generos_id)->get()->toArray(); break;
-					case 2: $relacion = Introducidas::with(array('nombreComunEs','nombreComunEn','regiones','familia'))->whereIn('id',$generos_id)->get()->toArray(); break;
-					case 3: $relacion = Nativas::with(array('nombreComunEs','nombreComunEn','regiones','familia'))->whereIn('id',$generos_id)->get()->toArray(); break;
+					case 1: $relacion = Cultivadas::with(array('comunas','nombreComunEs','nombreComunEn','regiones','familia'))->whereIn('id',$generos_id)->get()->toArray(); break;
+					case 2: $relacion = Introducidas::with(array('comunas','nombreComunEs','nombreComunEn','regiones','familia'))->whereIn('id',$generos_id)->get()->toArray(); break;
+					case 3: $relacion = Nativas::with(array('comunas','nombreComunEs','nombreComunEn','regiones','familia'))->whereIn('id',$generos_id)->get()->toArray(); break;
 					case 4: $relacion = Transgenicas::whereIn('id',$generos_id)->get()->toArray(); break;
 					//default: $relacion = Cultivadas::whereIn('id',$generos_id)->get()->toArray(); break;
 				}
-				
+
 				for ($i=0; $i < count($relacion) ; $i++) { 
 					$relacion[$i]['type'] = $type;
 					$relacion[$i]['relationship'] = $typeRel;
+					//$relacion[$i]['distribucion'] = getDistribucion($relacion[$i]);
 
 					if($especies_id!=[]){
 						for ($e=0; $e < count($especies_id); $e++) { 
