@@ -5,7 +5,8 @@ var flujoApp = angular.module('flujoApp', [
 	'ngRoute',
 	'restangular',
 	'ngSanitize',
-	'ngCookies'
+	'ngCookies',
+	'ui.bootstrap'
 ])
 .config(['$routeProvider', function($routeProvider) {
 	$routeProvider.when('/home'		, {templateUrl: 'partials/AppInforme/index.html',   controller: 'homeController'});

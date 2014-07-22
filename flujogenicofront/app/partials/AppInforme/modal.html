@@ -1,0 +1,223 @@
+<div class="ponderacion-panel" ng-show="ponderacionSp">
+
+	<div class="row">
+		<div class="col-xs-1"></div>
+<div class="col-sm-5 jumbotron">
+<h2>{{ponderacionSp.taxa}}</h2>
+<p>Riesgo de flujo génico propuesto: {{riskLevel(ponderacionSp.flujogenico)}} ({{ponderacionSp.flujogenico | number:0 }})</p>
+
+<p> Riesgo de flujo génico personalizado: {{ponderacionSpR}} ({{ponderacionSpF | number:3}})</p>
+
+<p><a class="btn btn-primary btn-lg" role="button" ng-click="ponderacionChao()">Estoy OK, Gracias</a></p>
+</div>
+<div class="col-xs-1"></div>
+
+<div class="col-md-4 jumbotron " style="overflow:scroll; height:500px;">
+<div class="tab-pane ">
+  <ul ng-show="ponderacionSp.type == 1">
+	<li>Tipo de Origen : {{R.CtipO}}
+		<input type="range" ng-model="R.CtipO" min="1" max="6" >
+		<ul>
+			<li>
+				Endemico: {{R.Cen}}
+				<input type="range" ng-model="R.Cen" min="1" max="6">
+			</li>
+			<li>
+				Nativo: {{R.Cnati}}
+				<input type="range" ng-model="R.Cnati" min="1" max="6">
+			</li>
+			<li>
+				Introducido: {{R.Cin}}
+				<input type="range" ng-model="R.Cin" min="1" max="6">
+			</li>
+			<li>
+				Naturalizado: {{R.Cnatu}}
+				<input type="range" ng-model="R.Cnatu" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+	<li>
+		Tipo de especie: {{R.CtipC}}
+		<input type="range" ng-model="R.CtipC" min="1" max="6">
+		<ul>
+			<li>
+				Agrícola: {{R.Cag}}
+				<input type="range" ng-model="R.Cag" min="1" max="6">
+			</li>
+			<li>
+				Ornamental: {{R.Cor}}
+				<input type="range" ng-model="R.Cor" min="1" max="6">
+			</li>
+			<li>
+				Forestal: {{R.Cfo}}
+				<input type="range" ng-model="R.Cfo" min="1" max="6">
+			</li>
+			<li>
+				Maleza: {{R.Cma}}
+				<input type="range" ng-model="R.Cma" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+	<li>
+		Reproducción: {{R.CtipR}}
+		<input type="range" ng-model="R.CtipR" min="1" max="6">
+		<ul>
+			<li>
+				Sexual: {{R.Cse}}
+				<input type="range" ng-model="R.Cse" min="1" max="6">
+			</li>
+			<li>
+				Vegetativa: {{R.Cve}}
+				<input type="range" ng-model="R.Cve" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+	<li>
+		Ciclo de Vida: {{R.Ccv}}
+		<input type="range" ng-model="R.Ccv" min="1" max="6">
+		<ul>
+			<li>
+				Anual: {{R.Can}}
+				<input type="range" ng-model="R.Can" min="1" max="6">
+			</li>
+			<li>
+				Bianual: {{R.Cbi}}
+				<input type="range" ng-model="R.Cbi" min="1" max="6">
+			</li>
+			<li>
+				Perenne: {{R.Cpe}}
+				<input type="range" ng-model="R.Cpe" min="1" max="6">
+			</li>
+			<li>
+				Bulbosa: {{R.Cbu}}
+				<input type="range" ng-model="R.Cbu" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+	<li>
+		Tipo de polinización: {{R.CtipP}}
+		<input type="range" ng-model="R.CtipP" min="1" max="6">
+		<ul>
+			<li>
+				Autógama: {{R.Cang}}
+				<input type="range" ng-model="R.Cang" min="1" max="6">
+			</li>
+			<li>
+				Alógama: {{R.Calg}}
+				<input type="range" ng-model="R.Calg" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+	<li>
+		Agente polinizante: {{R.CagP}}
+		<input type="range" ng-model="R.CagP" min="1" max="6">
+		<ul>
+			<li>
+				Entomófila: {{R.Cent}}
+				<input type="range" ng-model="R.Cent" min="1" max="6">
+			</li>
+			<li>
+				Anemófila: {{R.Cane}}
+				<input type="range" ng-model="R.Cane" min="1" max="6">
+			</li>
+			<li>
+				Artificial: {{R.Cart}}
+				<input type="range" ng-model="R.Cart" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+	<li>
+		Landrace: {{R.Cland}}
+		<input type="range" ng-model="R.Cland" min="1" max="6">
+		<ul>
+			<li>
+				Landrace: {{R.Clan}}
+				<input type="range" ng-model="R.Clan" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+</ul>
+
+<ul ng-show="ponderacionSp.type == 2">
+	<li>
+		Tipo de especie {{R.Itipoc}}
+		<input type="range" ng-model="R.Itipoc" min="1" max="6">
+		<ul>
+			<li>
+				Agrícola	{{R.Ia}}
+				<input type="range" ng-model="R.Ia" min="1" max="6">
+			</li>
+			<li>
+				Ornamental	{{R.Io}}
+				<input type="range" ng-model="R.Io" min="1" max="6">
+			</li>
+			<li>
+				Forestal	{{R.If}}
+				<input type="range" ng-model="R.If" min="1" max="6">
+			</li>
+			<li>
+				Medicinal	{{R.Ime}}
+				<input type="range" ng-model="R.Ime" min="1" max="6">
+			</li>
+			<li>
+				Maleza		{{R.Ima}}
+				<input type="range" ng-model="R.Ima" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+	<li>
+		Naturalizada {{R.Iotr}}
+		<input type="range" ng-model="R.Iotr" min="1" max="6">
+		<ul>
+			<li>
+				Naturalizada	{{R.In}}
+				<input type="range" ng-model="R.In" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+</ul>
+
+<ul ng-show="ponderacionSp.type == 3">
+	<li>
+		Estatus de conservación	{{R.NcEc}}
+		<input type="range" ng-model="R.NcEc" min="1" max="6">
+		<ul>
+			<li>
+				Extinta	{{R.Nex}}
+				<input type="range" ng-model="R.Nex" min="1" max="6">
+			</li>
+			<li>
+				En peligro	{{R.Np}}
+				<input type="range" ng-model="R.Np" min="1" max="6">
+			</li>
+			<li>
+				Vulnerable	{{R.Nv}}
+				<input type="range" ng-model="R.Nv" min="1" max="6">
+			</li>
+			<li>
+				Rara {{R.Nr}}
+				<input type="range" ng-model="R.Nr" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+	<li>
+		Endémica	{{R.Notr}}
+		<input type="range" ng-model="R.Notr" min="1" max="6">
+		<ul>
+			<li>
+			Endémica	{{R.Nen}}
+			<input type="range" ng-model="R.Nen" min="1" max="6">
+			</li>
+		</ul>
+	</li>
+</ul>
+
+</div>
+		</div>
+
+
+
+	</div>
+
+</div>
+

@@ -1,0 +1,164 @@
+
+<div class="panel panel-primary">
+<div class="panel-heading">
+	<h3 class="panel-title" ng-show="especieSeleccionada"> Especie seleccionada: {{especieSeleccionada.nombre}}</h3>
+	<h3 class="panel-title" ng-hide="especieSeleccionada"> Selecciona una especie del panel ubicado a la izquierda de la pantalla</h3>
+	<span class="pull-right">
+		<!-- Tabs -->
+		<ul class="nav panel-tabs">
+		<li ng-class="{active: selectedTabR == 1}">
+			<a ng-click="selectedTabR = 1" ng-show="spRelation.cultivadas">Cultivadas</a>
+		</li>
+		<li ng-class="{active: selectedTabR == 2}">
+			<a ng-click="selectedTabR = 2" ng-show="spRelation.introducidas">Introducidas</a>
+		</li>
+		<li ng-class="{active: selectedTabR == 3}">
+			<a ng-click="selectedTabR = 3" ng-show="spRelation.nativas">Nativas</a>
+		</li>
+		</ul>
+	</span>
+</div>
+<div class="panel-body">
+
+	<!-- Loading -->
+	<div ng-show="loadingRelation">
+		<img ng-src="img/loading.gif" alt="" class="loadingkrap">
+	</div>
+	<!-- ... -->
+
+	<div class="tab-content">
+		<div ng-show="selectedTabR == 0"> 	<h4>No existen especies asociadas en Chile</h4> </div>
+		
+		<div ng-show="selectedTabR == 1 && spRelation" ng-include=" 'partials/AppInforme/content/cultivadas.html' "></div>
+		<div ng-show="selectedTabR == 2 && spRelation">
+		<div class="page-header">
+		<h2>Asociación con especies introducidas</h2>
+		</div>
+
+		<div ng-repeat="spIntro in spRelation.introducidas | orderBy:'flujogenico':reverse=true">
+		<div ng-class="{'alert alert-warning': riskLevel(spIntro.flujogenico) == 'Medio', 'alert alert-danger': riskLevel(spIntro.flujogenico) == 'Alto','alert alert-info': riskLevel(spIntro.flujogenico) == 'Bajo'}">
+		<h4>{{spIntro.taxa}} - Riesgo de flujo Génico {{spIntro.flujogenico | number:0 }} - {{riskLevel(spIntro.flujogenico)}}
+		<button class="btn btn-sm btn-primary pull-right ponderacion" ng-click="ponderacion(spIntro)">
+		ponderación personalizada
+		</button>
+		</h4>
+		</div>
+
+
+		<div>
+		<h5>Descripción de la especie</h5>
+		<p class="alert">{{ description(spIntro) }}</p>
+		<div ng-show="spIntro.regiones">
+		<h5>Distribución por región</h5>
+		<table class="table" >
+		<tr>
+		<td>I</td>
+		<td>II</td>
+		<td>III</td>
+		<td>IV</td>
+		<td>V</td>
+		<td>VI</td>
+		<td>VII</td>
+		<td>VIII</td>
+		<td>IX</td>
+		<td>X</td>
+		<td>XI</td>
+		<td>XII</td>
+		<td>XIII</td>
+		<td>XIV</td>
+		<td>XV</td>
+		</tr>
+		<tr>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spIntro,1)}}" popover-title="{{spIntro.distribucion.I.nombre}}"><span ng-show="spIntro.distribucion.I">&#10004;</span></td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spIntro,2)}}" popover-title="{{spIntro.distribucion.II.nombre}}"><span ng-show="spIntro.distribucion.II">&#10004;</span></td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spIntro,3)}}" popover-title="{{spIntro.distribucion.III.nombre}}"><span ng-show="spIntro.distribucion.III">&#10004;</span></td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spIntro,4)}}" popover-title="{{spIntro.distribucion.IV.nombre}}"><span ng-show="spIntro.distribucion.IV">&#10004;</span></td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spIntro,5)}}" popover-title="{{spIntro.distribucion.V.nombre}}"><span ng-show="spIntro.distribucion.V">&#10004;</span></td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spIntro,6)}}" popover-title="{{spIntro.distribucion.VI.nombre}}"><span ng-show="spIntro.distribucion.VI">&#10004;</span></td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spIntro,7)}}" popover-title="{{spIntro.distribucion.VII.nombre}}"><span ng-show="spIntro.distribucion.VII">&#10004;</span></td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spIntro,8)}}" popover-title="{{spIntro.distribucion.VIII.nombre}}"><span ng-show="spIntro.distribucion.VIII">&#10004;</span></td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spIntro,9)}}" popover-title="{{spIntro.distribucion.IX.nombre}}"><span ng-show="spIntro.distribucion.IX">&#10004;</span></td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spIntro,10)}}" popover-title="{{spIntro.distribucion.X.nombre}}"><span ng-show="spIntro.distribucion.X">&#10004;</span></td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spIntro,11)}}" popover-title="{{spIntro.distribucion.XI.nombre}}"><span ng-show="spIntro.distribucion.XI">&#10004;</span></td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spIntro,12)}}" popover-title="{{spIntro.distribucion.XII.nombre}}"><span ng-show="spIntro.distribucion.XII">&#10004;</span></td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spIntro,13)}}" popover-title="{{spIntro.distribucion.XIII.nombre}}"><span ng-show="spIntro.distribucion.XIII">&#10004;</span></td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spIntro,14)}}" popover-title="{{spIntro.distribucion.XIV.nombre}}"><span ng-show="spIntro.distribucion.XIV">&#10004;</span></td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spIntro,15)}}" popover-title="{{spIntro.distribucion.XV.nombre}}"><span ng-show="spIntro.distribucion.XV">&#10004;</span></td>
+		</tr>
+		</table>
+		</div>								
+
+
+		</div>
+		</div>
+		</div>
+		<div ng-show="selectedTabR == 3 && spRelation">
+
+		<div class="page-header">
+		<h2>Asociación con especies nativas</h2>
+		</div>
+		<div ng-repeat="spNat in spRelation.nativas | orderBy:'flujogenico':reverse=true">
+
+		<div ng-class="{'alert alert-warning': riskLevel(spNat.flujogenico) == 'Medio', 'alert alert-danger': riskLevel(spNat.flujogenico) == 'Alto','alert alert-info': riskLevel(spNat.flujogenico) == 'Bajo'}">
+		<h4>{{spNat.taxa}} - Riesgo de flujo Génico {{spNat.flujogenico | number:0 }} - {{riskLevel(spNat.flujogenico)}}
+		<button class="btn btn-sm btn-primary pull-right ponderacion" ng-click="ponderacion(spNat)">
+		ponderación personalizada
+		</button>
+		</h4>
+		</div>
+
+		<div>
+
+		<h5>Descripción de la especie</h5>
+		<p class="alert">{{ description(spNat) }}</p>
+
+
+
+		<div ng-show="spNat.regiones">
+		<h5>Distribución por región</h5>
+		<table class="table" >
+		<tr>
+		<td>I</td>
+		<td>II</td>
+		<td>III</td>
+		<td>IV</td>
+		<td>V</td>
+		<td>VI</td>
+		<td>VII</td>
+		<td>VIII</td>
+		<td>IX</td>
+		<td>X</td>
+		<td>XI</td>
+		<td>XII</td>
+		<td>XIII</td>
+		<td>XIV</td>
+		<td>XV</td>
+		</tr>
+		<tr>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spNat,1)}}" popover-title="{{spNat.distribucion.I.nombre}}">	<span ng-show="spNat.distribucion.I">&#10004;</span>	</td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spNat,2)}}" popover-title="{{spNat.distribucion.II.nombre}}">	<span ng-show="spNat.distribucion.II">&#10004;</span>	</td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spNat,3)}}" popover-title="{{spNat.distribucion.III.nombre}}">	<span ng-show="spNat.distribucion.III">&#10004;</span>	</td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spNat,4)}}" popover-title="{{spNat.distribucion.IV.nombre}}">	<span ng-show="spNat.distribucion.IV">&#10004;</span>	</td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spNat,5)}}" popover-title="{{spNat.distribucion.V.nombre}}">	<span ng-show="spNat.distribucion.V">&#10004;</span>	</td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spNat,6)}}" popover-title="{{spNat.distribucion.VI.nombre}}">	<span ng-show="spNat.distribucion.VI">&#10004;</span>	</td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spNat,7)}}" popover-title="{{spNat.distribucion.VII.nombre}}">	<span ng-show="spNat.distribucion.VII">&#10004;</span>	</td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spNat,8)}}" popover-title="{{spNat.distribucion.VIII.nombre}}">	<span ng-show="spNat.distribucion.VIII">&#10004;</span>	</td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spNat,9)}}" popover-title="{{spNat.distribucion.IX.nombre}}">	<span ng-show="spNat.distribucion.IX">&#10004;</span>	</td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spNat,10)}}" popover-title="{{spNat.distribucion.X.nombre}}">	<span ng-show="spNat.distribucion.X">&#10004;</span>	</td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spNat,11)}}" popover-title="{{spNat.distribucion.XI.nombre}}">	<span ng-show="spNat.distribucion.XI">&#10004;</span>	</td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spNat,12)}}" popover-title="{{spNat.distribucion.XII.nombre}}">	<span ng-show="spNat.distribucion.XII">&#10004;</span>	</td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spNat,13)}}" popover-title="{{spNat.distribucion.XIII.nombre}}">	<span ng-show="spNat.distribucion.XIII">&#10004;</span>	</td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spNat,14)}}" popover-title="{{spNat.distribucion.XIV.nombre}}">	<span ng-show="spNat.distribucion.XIV">&#10004;</span>	</td>
+		<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover="{{desDist(spNat,15)}}" popover-title="{{spNat.distribucion.XV.nombre}}">	<span ng-show="spNat.distribucion.XV">&#10004;</span>	</td>
+		</tr>
+		</table>
+
+
+		</div>		
+
+		</div>
+		</div>
+		</div>
+	</div>
+</div>
+</div>

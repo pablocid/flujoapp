@@ -1,0 +1,58 @@
+<div class="page-header"> <h2>Asociación con especies cultivadas <small></small></h2></div>
+
+<div ng-repeat="spCult in spRelation.cultivadas | orderBy:'flujogenico':reverse=true">
+<div ng-class="{'alert alert-warning': riskLevel(spCult.flujogenico) == 'Medio', 'alert alert-danger': riskLevel(spCult.flujogenico) == 'Alto','alert alert-info': riskLevel(spCult.flujogenico) == 'Bajo'}">
+<h4>
+	{{spCult.taxa}} -  Riego de flujo Génico : {{spCult.flujogenico | number:0 }} - {{riskLevel(spCult.flujogenico)}} 
+	<button class="btn btn-sm btn-primary pull-right ponderacion" ng-click="ponderacion(spCult)">
+	ponderación personalizada
+	</button>
+</h4>
+</div>
+<div>
+<h5>Descripción de la especie</h5>
+<p ng-class="alert">{{ description(spCult) }}</p>
+<div ng-show="spCult.regiones">
+
+<h5>Distribución por región</h5>
+<div ng-class="alert">
+<table ng-class="table" >
+<tr>
+<td>I</td>
+<td>II</td>
+<td>III</td>
+<td>IV</td>
+<td>V</td>
+<td>VI</td>
+<td>VII</td>
+<td>VIII</td>
+<td>IX</td>
+<td>X</td>
+<td>XI</td>
+<td>XII</td>
+<td>XIII</td>
+<td>XIV</td>
+<td>XV</td>
+</tr>
+<tr>
+<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover-title="{{spCult.distribucion.I.nombre}}" popover="{{desDist(spCult,1)}}"><span ng-show="spCult.distribucion.I">&#10004;</span></td>
+<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover-title="{{spCult.distribucion.II.nombre}}" popover="{{desDist(spCult,2)}}"><span ng-show="spCult.distribucion.II">&#10004;</span></td>
+<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover-title="{{spCult.distribucion.III.nombre}}" popover="{{desDist(spCult,3)}}"><span ng-show="spCult.distribucion.III">&#10004;</span></td>
+<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover-title="{{spCult.distribucion.IV.nombre}}" popover="{{desDist(spCult,4)}}"><span ng-show="spCult.distribucion.IV">&#10004;</span></td>
+<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover-title="{{spCult.distribucion.V.nombre}}" popover="{{desDist(spCult,5)}}"><span ng-show="spCult.distribucion.V">&#10004;</span></td>
+<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover-title="{{spCult.distribucion.VI.nombre}}" popover="{{desDist(spCult,6)}}"><span ng-show="spCult.distribucion.VI">&#10004;</span></td>
+<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover-title="{{spCult.distribucion.VII.nombre}}" popover="{{desDist(spCult,7)}}"><span ng-show="spCult.distribucion.VII">&#10004;</span></td>
+<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover-title="{{spCult.distribucion.VIII.nombre}}" popover="{{desDist(spCult,8)}}"><span ng-show="spCult.distribucion.VIII">&#10004;</span></td>
+<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover-title="{{spCult.distribucion.IX.nombre}}" popover="{{desDist(spCult,9)}}"><span ng-show="spCult.distribucion.IX">&#10004;</span></td>
+<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover-title="{{spCult.distribucion.X.nombre}}" popover="{{desDist(spCult,10)}}"><span ng-show="spCult.distribucion.X">&#10004;</span></td>
+<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover-title="{{spCult.distribucion.XI.nombre}}" popover="{{desDist(spCult,11)}}"><span ng-show="spCult.distribucion.XI">&#10004;</span></td>
+<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover-title="{{spCult.distribucion.XII.nombre}}" popover="{{desDist(spCult,12)}}"><span ng-show="spCult.distribucion.XII">&#10004;</span></td>
+<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover-title="{{spCult.distribucion.XIII.nombre}}" popover="{{desDist(spCult,13)}}"><span ng-show="spCult.distribucion.XIII">&#10004;</span></td>
+<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover-title="{{spCult.distribucion.XIV.nombre}}" popover="{{desDist(spCult,14)}}"><span ng-show="spCult.distribucion.XIV">&#10004;</span></td>
+<td popover-placement="bottom" popover-append-to-body="true" popover-trigger="mouseenter" popover-title="{{spCult.distribucion.XV.nombre}}" popover="{{desDist(spCult,15)}}"><span ng-show="spCult.distribucion.XV">&#10004;</span></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>

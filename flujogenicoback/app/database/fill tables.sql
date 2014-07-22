@@ -726,13 +726,11 @@ SELECT id, name, NOW(), NOW() FROM flujo_genico.test_distribucion_region;
 -- php artisan migrate:make create_comunas_name_table
 -- php artisan migrate
 
-INSERT INTO flujoapp.dstr_comuna_name (id, name, created_at, updated_at	)
+INSERT INTO flujoapp.dstr_comuna_name (id, name, region_code, created_at, updated_at	)
 
-SELECT id, name, NOW(), NOW() FROM flujo_genico.test_distribucion_comuna;
-
-
-
-
+SELECT flujo_genico.test_distribucion_comuna.id, flujo_genico.test_distribucion_comuna.name, flujo_genico.test_distribucion_region.id, NOW(), NOW() FROM flujo_genico.test_distribucion_comuna 
+INNER JOIN flujo_genico.test_distribucion_provincia ON (flujo_genico.test_distribucion_provincia.id = flujo_genico.test_distribucion_comuna.provincia_id)
+INNER JOIN flujo_genico.test_distribucion_region ON (flujo_genico.test_distribucion_region.id = flujo_genico.test_distribucion_provincia.region_id)
 
 
 

@@ -1,0 +1,28 @@
+<!-- ngModel is optional -->
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs">
+  <li ng-class="{active: selectedTab == 1}"><a ng-click="selectedTab = 1">Transgenicas</a></li>
+  <li ng-class="{active: selectedTab == 2}"><a ng-click="selectedTab = 2">Cultivadas</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="scroll-block" >
+
+	<div ng-hide="transgenicas">
+		<img ng-src="img/loading.gif" class="loadingkrap">
+	</div>
+
+	<div class="tab-pane" ng-show="selectedTab == 1" id="home">
+		<ul>
+			<li ng-repeat="spT in transgenicas"><a ng-click="especiesRelacionadas(spT,4)">{{spT.TAXA}}</a></li>
+		</ul>
+	</div>
+
+	<div class="tab-pane" ng-show="selectedTab == 2" id="profile">
+		<ul>
+			<li ng-repeat="spT in cultivadas"><a ng-click="especiesRelacionadas(spT,1)">{{spT.taxa}}</a></li>
+		</ul>
+	</div>
+
+</div>
