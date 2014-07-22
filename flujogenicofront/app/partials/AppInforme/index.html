@@ -1,0 +1,41 @@
+<style>
+	.ponderacion-panel{
+		position: fixed;
+		left:0px;
+		top:0px;
+		z-index: 999;
+		width: 100%;
+		height:100%;
+		background-color:rgba(0,0,0,0.4);
+		padding-top: 50px;
+	}
+	.fondoblanco{
+		background-color:rgba(255,255,255,0.85);
+	}
+	button.ponderacion{
+		display:none;
+	}
+	 h4:hover .ponderacion{
+		display: inline;
+	}
+	.scroll-block{
+		overflow:scroll; 
+		height:450px;
+	}
+	.loadingkrap{
+		display:block; 
+		margin:auto; 
+		margin-top:100px; 
+		width:33px;
+	}
+</style>
+
+<div ng-include=" 'partials/AppInforme/modal.html' "></div>
+
+<div class="row">
+	<div class="col-md-4" ng-include=" 'partials/AppInforme/aside.html' "></div>
+	<div class="col-md-8" ng-include=" 'partials/AppInforme/content.html' "></div>
+</div>
+
+
+
